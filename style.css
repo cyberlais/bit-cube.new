@@ -1,0 +1,40 @@
+@import "@fontsource/montserrat"; /* Default weight 400 */
+@import "@fontsource/montserrat/100.css"; /* Thin */
+@import "@fontsource/montserrat/200.css"; /* Extra-Light */
+@import "@fontsource/montserrat/300.css"; /* Light */
+@import "@fontsource/montserrat/500.css"; /* Medium */
+@import "@fontsource/montserrat/600.css"; /* Semi-Bold */
+@import "@fontsource/montserrat/700.css"; /* Bold */
+@import "@fontsource/montserrat/800.css"; /* Extra-Bold */
+@import "@fontsource/montserrat/900.css"; /* Black */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.bg-0::before {
+	content: "";
+	position: absolute;
+	background-image: url("/img/background/bg-0.png");
+	background-position: right top;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	right: 0;
+	z-index: -10;
+}
+
+.bg-1::after {
+	content: "";
+	position: absolute;
+	background-image: url("/img/background/bg-1.png");
+	background-position: left top;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 100%;
+	left: 0;
+	top: 0;
+	z-index: -10;
+	filter: blur(10px);
+	mix-blend-mode: color-dodge;
+}
