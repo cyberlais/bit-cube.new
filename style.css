@@ -11,7 +11,7 @@
 @tailwind components;
 @tailwind utilities;
 
-.bg-0::before {
+.bg-1::after {
 	content: "";
 	position: absolute;
 	background-image: url("/img/background/bg-0.png");
@@ -21,20 +21,107 @@
 	height: 100%;
 	top: 0;
 	right: 0;
-	z-index: -10;
+	z-index: -15;
 }
 
-.bg-1::after {
+.bg-1::before {
 	content: "";
 	position: absolute;
-	background-image: url("/img/background/bg-1.png");
-	background-position: left top;
+	background: url("/img/background/bg-1.png");
 	background-repeat: no-repeat;
 	width: 100%;
 	height: 100%;
 	left: 0;
-	top: 0;
+	top: -817px;
 	z-index: -10;
 	filter: blur(10px);
+	opacity: 0.8;
 	mix-blend-mode: color-dodge;
+}
+
+.bg-video::after {
+	content: "";
+	position: absolute;
+	width: 250%;
+	height: 100%;
+	top: -50%;
+	left: 50%;
+	background-color: #d504d8;
+	border-radius: 50%;
+	filter: blur(200px);
+	opacity: 0.8;
+	transform: translate(400px, 0);
+	z-index: -10;
+}
+
+.bg-video::before {
+	content: "";
+	position: absolute;
+	width: 250%;
+	height: 100%;
+	bottom: -50%;
+	right: 50%;
+	background-color: #5100ff;
+	border-radius: 50%;
+	filter: blur(200px);
+	opacity: 0.8;
+	transform: translate(400px, 0);
+	z-index: -10;
+}
+
+.bg-advantages::before {
+	content: "";
+	position: absolute;
+	width: 250%;
+	height: 100%;
+	top: 0;
+	left: -250%;
+	background-color: #2204d8;
+	border-radius: 50%;
+	filter: blur(200px);
+	opacity: 0.8;
+	transform: translate(400px, 0);
+	z-index: -10;
+}
+
+.bg-video-list::after {
+	content: "";
+	position: absolute;
+	background-image: url("/img/background/bg-2.png");
+	background-repeat: no-repeat;
+	width: 1917px;
+	height: 1935px;
+	left: -54px;
+	bottom: 128px;
+	z-index: -10;
+	filter: blur(20px);
+	mix-blend-mode: color-dodge;
+}
+
+.bg-form::before {
+	content: "";
+	position: absolute;
+	width: 100%;
+	height: 70%;
+	top: -24px;
+	left: 0;
+	background-color: #d504d8;
+	border-radius: 50%;
+	filter: blur(200px);
+	opacity: 0.8;
+	transform: translate(400px, 0);
+	z-index: -15;
+}
+
+.bg-form::after {
+	content: "";
+	position: absolute;
+	background-image: url("/img/background/bg-3.png");
+	background-position: right top;
+	background-repeat: no-repeat;
+	width: 2380px;
+	height: 1706px;
+	top: -266px;
+	left: 193px;
+	z-index: -10;
 }
