@@ -11,6 +11,15 @@
 @tailwind components;
 @tailwind utilities;
 
+@media (max-width: 1280px) {
+	.bg-1::after {
+		display: none;
+	}
+	.bg-form::after {
+		display: none;
+	}
+}
+
 .bg-1::after {
 	content: "";
 	position: absolute;
