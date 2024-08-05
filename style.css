@@ -7,6 +7,7 @@
 @import "@fontsource/montserrat/700.css"; /* Bold */
 @import "@fontsource/montserrat/800.css"; /* Extra-Bold */
 @import "@fontsource/montserrat/900.css"; /* Black */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -122,6 +123,35 @@
 	z-index: -15;
 }
 
+.bg-proizvodstva::before {
+	content: "";
+	position: absolute;
+	width: 100%;
+	height: 47%;
+	bottom: -370px;
+	left: 158px;
+	background-color: #5100ff;
+	border-radius: 50%;
+	filter: blur(200px);
+	opacity: 0.8;
+	transform: translate(400px, 0);
+	z-index: -15;
+}
+
+.bg-proizvodstva::after {
+	content: "";
+	position: absolute;
+	background-image: url("/img/proizvodstvo/proizvodstvo-bg-1.png");
+	background-position: right top;
+	background-repeat: no-repeat;
+	mix-blend-mode: color-dodge;
+	width: 1917px;
+	height: 1935px;
+	top: -468px;
+	right: 735px;
+	z-index: -10;
+}
+
 .bg-form::after {
 	content: "";
 	position: absolute;
@@ -143,3 +173,5 @@
 .swiper-pagination-bullet-active {
 	background: rgba(255, 255, 255) !important;
 }
+
+

@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<link rel="icon" type="image/svg+xml" href="/vite.svg" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Vite App</title>
+	</head>
+	<body class="font-sans">
+		<div class="overflow-hidden relative">
+			<main
+				class="px-6 810:px-8 1440:px-0 flex flex-col gap-6 810:gap-16 1024:gap-20 max-w-[1170px] mx-auto text-black dakr:text-white font-medium text-[15px] leading-[160%] pb-[128px]"
+			>
+				<article
+					class="flex flex-col gap-6 810:gap-8 1024:gap-16 py-6 810:py-16 1024:py-20"
+				>
+					<h1
+						class="font-bold uppercase text-[24px] leading-[142%] 1024:text-[40px] 1024:leading-[140%]"
+					>
+						калькулятор расчета доходности майнинга в контейнерах bitcube
+					</h1>
+					<section class="flex flex-col gap-6">
+						<p class="font-semibold text-[20px] leading-[120%]">
+							Укажите основные данные
+						</p>
+						<form action="">
+							<div class="flex flex-col gap-2">
+								<label
+									class="font-medium text-[14px] leading-[114%] opacity-60"
+									for=""
+									>Добываемая монета/алгоритм</label
+								>
+								<div class="relative inline-block w-72">
+									<!-- Скрытый select -->
+									<select class="hidden" id="hidden-select">
+										<option value="btc" selected>BTC (Bitcoin)</option>
+										<option value="eth">ETH (Ethereum)</option>
+										<option value="ltc">LTC (Litecoin)</option>
+									</select>
+
+									<!-- Кастомная кнопка для открытия списка -->
+									<div class="relative">
+										<button
+											type="button"
+											id="custom-select-button"
+											class="relative w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+										>
+											<span class="flex items-center">
+												<img
+													src="https://path-to-your-btc-icon.png"
+													alt="Crypto Icon"
+													class="flex-shrink-0 h-6 w-6 rounded-full"
+													id="selected-icon"
+												/>
+												<span class="ml-3 block truncate" id="selected-text"
+													>BTC (Bitcoin)</span
+												>
+											</span>
+											<span
+												class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none"
+											>
+												<svg
+													class="h-5 w-5 text-gray-400"
+													xmlns="http://www.w3.org/2000/svg"
+													viewBox="0 0 20 20"
+													fill="currentColor"
+													aria-hidden="true"
+												>
+													<path
+														fill-rule="evenodd"
+														d="M10 3a1 1 0 01.707.293l4 4a1 1 0 01-1.414 1.414L10 5.414 6.707 8.707a1 1 0 01-1.414-1.414l4-4A1 1 0 0110 3z"
+														clip-rule="evenodd"
+													/>
+												</svg>
+											</span>
+										</button>
+									</div>
+
+									<!-- Кастомный выпадающий список -->
+									<div
+										class="absolute mt-1 w-full rounded-md bg-white shadow-lg z-10 hidden"
+										id="custom-select-options"
+									>
+										<ul
+											tabindex="-1"
+											role="listbox"
+											aria-labelledby="listbox-label"
+											aria-activedescendant="listbox-item-3"
+											class="max-h-56 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
+										>
+											<li
+												class="text-gray-900 cursor-default select-none relative py-2 pl-3 pr-9 flex items-center"
+												role="option"
+												data-value="btc"
+											>
+												<img
+													src="https://path-to-your-btc-icon.png"
+													alt="BTC Icon"
+													class="flex-shrink-0 h-6 w-6 rounded-full"
+												/>
+												<div class="ml-3 block">
+													<span class="font-normal block truncate"
+														>BTC (Bitcoin)</span
+													>
+													<span class="text-gray-500 text-sm">SHA-256</span>
+												</div>
+											</li>
+											<li
+												class="text-gray-900 cursor-default select-none relative py-2 pl-3 pr-9 flex items-center"
+												role="option"
+												data-value="eth"
+											>
+												<img
+													src="https://path-to-your-eth-icon.png"
+													alt="ETH Icon"
+													class="flex-shrink-0 h-6 w-6 rounded-full"
+												/>
+												<div class="ml-3 block">
+													<span class="font-normal block truncate"
+														>ETH (Ethereum)</span
+													>
+													<span class="text-gray-500 text-sm">Ethash</span>
+												</div>
+											</li>
+											<li
+												class="text-gray-900 cursor-default select-none relative py-2 pl-3 pr-9 flex items-center"
+												role="option"
+												data-value="ltc"
+											>
+												<img
+													src="https://path-to-your-ltc-icon.png"
+													alt="LTC Icon"
+													class="flex-shrink-0 h-6 w-6 rounded-full"
+												/>
+												<div class="ml-3 block">
+													<span class="font-normal block truncate"
+														>LTC (Litecoin)</span
+													>
+													<span class="text-gray-500 text-sm">Scrypt</span>
+												</div>
+											</li>
+											<!-- Добавьте другие опции по необходимости -->
+										</ul>
+									</div>
+								</div>
+							</div>
+
+							<section class="grid grid-cols-2">
+								<section>
+									<div>
+										<label for="">Устройство для размещения</label>
+										<div class="relative inline-block w-72">
+											<!-- Скрытый select -->
+											<select class="hidden" id="hidden-select">
+												<option value="1" selected>
+													Название модели майнера 1
+												</option>
+												<option value="2">Название модели майнера 2</option>
+												<option value="3">Название модели майнера 3</option>
+											</select>
+
+											<!-- Кастомная кнопка для открытия списка -->
+											<div class="relative">
+												<button
+													type="button"
+													id="custom-select-button"
+													class="relative w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+												>
+													<span class="flex items-center">
+														<img
+															src="https://path-to-your-icon.png"
+															alt="Miner Icon"
+															class="flex-shrink-0 h-6 w-6 rounded-full"
+															id="selected-icon"
+														/>
+														<span class="ml-3 block truncate" id="selected-text"
+															>Выберите модель майнера</span
+														>
+													</span>
+													<span
+														class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none"
+													>
+														<svg
+															class="h-5 w-5 text-gray-400"
+															xmlns="http://www.w3.org/2000/svg"
+															viewBox="0 0 20 20"
+															fill="currentColor"
+															aria-hidden="true"
+														>
+															<path
+																fill-rule="evenodd"
+																d="M10 3a1 1 0 01.707.293l4 4a1 1 0 01-1.414 1.414L10 5.414 6.707 8.707a1 1 0 01-1.414-1.414l4-4A1 1 0 0110 3z"
+																clip-rule="evenodd"
+															/>
+														</svg>
+													</span>
+												</button>
+											</div>
+
+											<!-- Кастомный выпадающий список -->
+											<div
+												class="absolute mt-1 w-full rounded-md bg-white shadow-lg z-10 hidden"
+												id="custom-select-options"
+											>
+												<ul
+													tabindex="-1"
+													role="listbox"
+													aria-labelledby="listbox-label"
+													aria-activedescendant="listbox-item-3"
+													class="max-h-56 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
+												>
+													<li
+														class="text-gray-900 cursor-default select-none relative py-2 pl-3 pr-9 flex items-center"
+														role="option"
+														data-value="1"
+													>
+														<img
+															src="https://path-to-your-icon.png"
+															alt="Miner Icon"
+															class="flex-shrink-0 h-6 w-6 rounded-full"
+														/>
+														<div class="ml-3 block">
+															<span class="font-normal block truncate"
+																>Название модели майнера 1</span
+															>
+															<span class="text-gray-500 text-sm"
+																>SHA-256 / 104 TH/s / 3200 Вт</span
+															>
+														</div>
+													</li>
+													<li
+														class="text-gray-900 cursor-default select-none relative py-2 pl-3 pr-9 flex items-center"
+														role="option"
+														data-value="2"
+													>
+														<img
+															src="https://path-to-your-icon.png"
+															alt="Miner Icon"
+															class="flex-shrink-0 h-6 w-6 rounded-full"
+														/>
+														<div class="ml-3 block">
+															<span class="font-normal block truncate"
+																>Название модели майнера 2</span
+															>
+															<span class="text-gray-500 text-sm"
+																>SHA-256 / 104 TH/s / 3200 Вт</span
+															>
+														</div>
+													</li>
+													<li
+														class="text-gray-900 cursor-default select-none relative py-2 pl-3 pr-9 flex items-center"
+														role="option"
+														data-value="3"
+													>
+														<img
+															src="https://path-to-your-icon.png"
+															alt="Miner Icon"
+															class="flex-shrink-0 h-6 w-6 rounded-full"
+														/>
+														<div class="ml-3 block">
+															<span class="font-normal block truncate"
+																>Название модели майнера 3</span
+															>
+															<span class="text-gray-500 text-sm"
+																>SHA-256 / 104 TH/s / 3200 Вт</span
+															>
+														</div>
+													</li>
+												</ul>
+											</div>
+										</div>
+									</div>
+									<div>
+										<label for="">Хешрейт</label>
+										<div>
+											<input type="text" placeholder="0" />
+											<select name="" id="">
+												<option value="" selected>Mh/s</option>
+											</select>
+										</div>
+									</div>
+									<div>
+										<label for="">Цена электроэнергии</label>
+										<div>
+											<input type="text" placeholder="0" /> <span>Кв/ч</span>
+										</div>
+									</div>
+								</section>
+
+								<section>
+									<div>
+										<label for="">Кол-во ASIC-майнеров</label>
+										<div>
+											<input
+												type="text"
+												placeholder="Впишите кол-во майнеров"
+											/>
+											<span>шт.</span>
+										</div>
+									</div>
+									<div>
+										<label for="">Потребление</label>
+										<div>
+											<input type="text" placeholder="0" />
+											<span>Вт</span>
+										</div>
+									</div>
+									<div>
+										<label for="">Цена ASIC-майнера</label>
+										<div>
+											<input type="text" placeholder="0" />
+											<select name="" id="">
+												<option value="" selected>₽</option>
+												<option value="">$</option>
+											</select>
+										</div>
+									</div>
+								</section>
+							</section>
+							<section>
+								<p>Стоимость оборудования</p>
+								<div><span>0</span><span>₽</span></div>
+							</section>
+							<section>
+								<button>Сбросить</button>
+								<button>Показать результаты</button>
+							</section>
+						</form>
+
+						<section>
+							<div class="flex">
+								<p>Результаты расчета</p>
+								<label class="switch">
+									<input type="checkbox" />
+									<span class="slider round"></span>
+								</label>
+							</div>
+							<div>
+								<p>Срок окупаемости</p>
+								<div><span>38</span><span>месяцев</span></div>
+							</div>
+							<div class="grid grid-cols-4">
+								<p>Затраты на размещение</p>
+								<div>
+									<p>В день</p>
+									<p><span>2 575 </span> <span>₽</span></p>
+								</div>
+								<div>
+									<p>В месяц</p>
+									<p><span>2 575 </span> <span>₽</span></p>
+								</div>
+								<div>
+									<p>В год</p>
+									<p><span>2 575 </span> <span>₽</span></p>
+								</div>
+							</div>
+							<div class="grid grid-cols-4">
+								<p>Доход</p>
+								<div>
+									<p><span>2 575 </span> <span>₽</span></p>
+								</div>
+								<div>
+									<p><span>2 575 </span> <span>₽</span></p>
+								</div>
+								<div>
+									<p><span>2 575 </span> <span>₽</span></p>
+								</div>
+							</div>
+							<div class="grid grid-cols-4">
+								<p>Чистая прибыль</p>
+								<div>
+									<p><span>2 575 </span> <span>₽</span></p>
+								</div>
+								<div>
+									<p><span>2 575 </span> <span>₽</span></p>
+								</div>
+								<div>
+									<p><span>2 575 </span> <span>₽</span></p>
+								</div>
+							</div>
+						</section>
+					</section>
+				</article>
+			</main>
+		</div>
+	</body>
+	<script type="module" src="/main.js"></script>
+</html>
