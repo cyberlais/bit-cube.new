@@ -15,7 +15,7 @@
 					class="flex flex-col gap-6 810:gap-8 1024:gap-16 py-6 810:py-16 1024:py-20"
 				>
 					<h1
-						class="font-bold uppercase text-[24px] leading-[142%] 1024:text-[40px] 1024:leading-[140%]"
+						class="font-bold uppercase text-[24px] leading-[142%] 810:text-[40px] 810:leading-[140%]"
 					>
 						калькулятор расчета доходности майнинга в контейнерах bitcube
 					</h1>
@@ -23,135 +23,43 @@
 						<p class="font-semibold text-[20px] leading-[120%]">
 							Укажите основные данные
 						</p>
-						<form action="">
+						<form class="flex flex-col gap-6" action="">
 							<div class="flex flex-col gap-2">
 								<label
 									class="font-medium text-[14px] leading-[114%] opacity-60"
 									for=""
 									>Добываемая монета/алгоритм</label
 								>
-								<div class="relative inline-block w-72">
-									<!-- Скрытый select -->
-									<select class="hidden" id="hidden-select">
-										<option value="btc" selected>BTC (Bitcoin)</option>
-										<option value="eth">ETH (Ethereum)</option>
-										<option value="ltc">LTC (Litecoin)</option>
-									</select>
+								<!-- Скрытый select для ранжирования -->
+								<select class="hidden" id="hidden-select">
+									<option value="btc" selected>BTC (Bitcoin)</option>
+									<option value="eth">ETH (Ethereum)</option>
+									<option value="ltc">LTC (Litecoin)</option>
+								</select>
 
-									<!-- Кастомная кнопка для открытия списка -->
-									<div class="relative">
-										<button
-											type="button"
-											id="custom-select-button"
-											class="relative w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-										>
-											<span class="flex items-center">
-												<img
-													src="https://path-to-your-btc-icon.png"
-													alt="Crypto Icon"
-													class="flex-shrink-0 h-6 w-6 rounded-full"
-													id="selected-icon"
-												/>
-												<span class="ml-3 block truncate" id="selected-text"
-													>BTC (Bitcoin)</span
-												>
-											</span>
-											<span
-												class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none"
-											>
-												<svg
-													class="h-5 w-5 text-gray-400"
-													xmlns="http://www.w3.org/2000/svg"
-													viewBox="0 0 20 20"
-													fill="currentColor"
-													aria-hidden="true"
-												>
-													<path
-														fill-rule="evenodd"
-														d="M10 3a1 1 0 01.707.293l4 4a1 1 0 01-1.414 1.414L10 5.414 6.707 8.707a1 1 0 01-1.414-1.414l4-4A1 1 0 0110 3z"
-														clip-rule="evenodd"
-													/>
-												</svg>
-											</span>
-										</button>
-									</div>
-
-									<!-- Кастомный выпадающий список -->
-									<div
-										class="absolute mt-1 w-full rounded-md bg-white shadow-lg z-10 hidden"
-										id="custom-select-options"
-									>
-										<ul
-											tabindex="-1"
-											role="listbox"
-											aria-labelledby="listbox-label"
-											aria-activedescendant="listbox-item-3"
-											class="max-h-56 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
-										>
-											<li
-												class="text-gray-900 cursor-default select-none relative py-2 pl-3 pr-9 flex items-center"
-												role="option"
-												data-value="btc"
-											>
-												<img
-													src="https://path-to-your-btc-icon.png"
-													alt="BTC Icon"
-													class="flex-shrink-0 h-6 w-6 rounded-full"
-												/>
-												<div class="ml-3 block">
-													<span class="font-normal block truncate"
-														>BTC (Bitcoin)</span
-													>
-													<span class="text-gray-500 text-sm">SHA-256</span>
-												</div>
-											</li>
-											<li
-												class="text-gray-900 cursor-default select-none relative py-2 pl-3 pr-9 flex items-center"
-												role="option"
-												data-value="eth"
-											>
-												<img
-													src="https://path-to-your-eth-icon.png"
-													alt="ETH Icon"
-													class="flex-shrink-0 h-6 w-6 rounded-full"
-												/>
-												<div class="ml-3 block">
-													<span class="font-normal block truncate"
-														>ETH (Ethereum)</span
-													>
-													<span class="text-gray-500 text-sm">Ethash</span>
-												</div>
-											</li>
-											<li
-												class="text-gray-900 cursor-default select-none relative py-2 pl-3 pr-9 flex items-center"
-												role="option"
-												data-value="ltc"
-											>
-												<img
-													src="https://path-to-your-ltc-icon.png"
-													alt="LTC Icon"
-													class="flex-shrink-0 h-6 w-6 rounded-full"
-												/>
-												<div class="ml-3 block">
-													<span class="font-normal block truncate"
-														>LTC (Litecoin)</span
-													>
-													<span class="text-gray-500 text-sm">Scrypt</span>
-												</div>
-											</li>
-											<!-- Добавьте другие опции по необходимости -->
-										</ul>
-									</div>
-								</div>
+								<!-- Кастомный select для userclient -->
+								<div
+									data-react-select
+									data-placeholder="true"
+									data-options='[
+          {"value": "btc", "label": "BTC (Bitcoin)", "icon": "https://path-to-your-btc-icon.png", "description": "SHA-256"},
+          {"value": "eth", "label": "ETH (Ethereum)", "icon": "https://path-to-your-eth-icon.png", "description": "Ethash"},
+          {"value": "ltc", "label": "LTC (Litecoin)", "icon": "https://path-to-your-ltc-icon.png", "description": "Scrypt"}
+        ]'
+								></div>
 							</div>
 
-							<section class="grid grid-cols-2">
-								<section>
-									<div>
-										<label for="">Устройство для размещения</label>
-										<div class="relative inline-block w-72">
-											<!-- Скрытый select -->
-											<select class="hidden" id="hidden-select">
+							<section class="grid 810:grid-cols-2 gap-6">
+								<section class="flex flex-col gap-6">
+									<div class="flex flex-col gap-2">
+										<label
+											class="font-medium text-[14px] leading-[114%] opacity-60"
+											for=""
+											>Устройство для размещения</label
+										>
+										<div class="relative inline-block">
+											<!-- Скрытый select для ранжирования -->
+											<select class="hidden" id="hidden-select-miner">
 												<option value="1" selected>
 													Название модели майнера 1
 												</option>
@@ -159,230 +67,311 @@
 												<option value="3">Название модели майнера 3</option>
 											</select>
 
-											<!-- Кастомная кнопка для открытия списка -->
-											<div class="relative">
-												<button
-													type="button"
-													id="custom-select-button"
-													class="relative w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-												>
-													<span class="flex items-center">
-														<img
-															src="https://path-to-your-icon.png"
-															alt="Miner Icon"
-															class="flex-shrink-0 h-6 w-6 rounded-full"
-															id="selected-icon"
-														/>
-														<span class="ml-3 block truncate" id="selected-text"
-															>Выберите модель майнера</span
-														>
-													</span>
-													<span
-														class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none"
-													>
-														<svg
-															class="h-5 w-5 text-gray-400"
-															xmlns="http://www.w3.org/2000/svg"
-															viewBox="0 0 20 20"
-															fill="currentColor"
-															aria-hidden="true"
-														>
-															<path
-																fill-rule="evenodd"
-																d="M10 3a1 1 0 01.707.293l4 4a1 1 0 01-1.414 1.414L10 5.414 6.707 8.707a1 1 0 01-1.414-1.414l4-4A1 1 0 0110 3z"
-																clip-rule="evenodd"
-															/>
-														</svg>
-													</span>
-												</button>
-											</div>
-
-											<!-- Кастомный выпадающий список -->
+											<!-- Кастомный select для userclient -->
 											<div
-												class="absolute mt-1 w-full rounded-md bg-white shadow-lg z-10 hidden"
-												id="custom-select-options"
+												data-react-select
+												data-placeholder="false"
+												data-options='[
+												{"value": "1", "label": "Название модели майнера 1", "icon": "https://path-to-your-icon.png", "description": "SHA-256 / 104 TH/s / 3200 Вт"},
+												{"value": "2", "label": "Название модели майнера 2", "icon": "https://path-to-your-icon.png", "description": "SHA-256 / 104 TH/s / 3200 Вт"},
+												{"value": "3", "label": "Название модели майнера 3", "icon": "https://path-to-your-icon.png", "description": "SHA-256 / 104 TH/s / 3200 Вт"}
+											]'
+											></div>
+										</div>
+									</div>
+									<div>
+										<label
+											class="font-medium text-[14px] leading-[114%] opacity-60"
+											for=""
+											>Хешрейт</label
+										>
+										<!-- Скрытый select для ранжирования -->
+										<select class="absolute hidden" id="hidden-select">
+											<option value="Mh/s" selected>Mh/s</option>
+											<option value="Mh/s">Mh/s</option>
+											<option value="Mh/s">Mh/s</option>
+										</select>
+										<div class="flex gap-2">
+											<input
+												class="w-full h-[66px] py-3 px-6 rounded-xl border border-solid border-black border-opacity-10 focus:border-opacity-25 focus-visible:border-opacity-25 focus-visible:border-black focus-visible:outline-none placeholder:opacity-30 placeholder:font-medium placeholder:text-[15px] placeholder:leading-[160%]"
+												type="text"
+												placeholder="0"
+											/>
+											<!-- Кастомный select -->
+											<div
+												class="text-[#00a3ff]"
+												data-react-simple-select
+												data-options='["Mh/s", "Mh/s", "Mh/s"]'
+											></div>
+										</div>
+									</div>
+									<div>
+										<label
+											class="font-medium text-[14px] leading-[114%] opacity-60"
+											for=""
+											>Цена электроэнергии</label
+										>
+										<div class="relative">
+											<input
+												class="w-full h-[66px] py-3 px-6 rounded-xl border border-solid border-black border-opacity-10 focus:border-opacity-25 focus-visible:border-opacity-25 focus-visible:border-black focus-visible:outline-none placeholder:opacity-30 placeholder:font-medium placeholder:text-[15px] placeholder:leading-[160%]"
+												type="text"
+												placeholder="4.7"
+											/>
+											<span
+												class="absolute flex items-center inset-y-0 right-6 font-medium text-[15px] leading-[160%]"
+												>Кв/ч</span
 											>
-												<ul
-													tabindex="-1"
-													role="listbox"
-													aria-labelledby="listbox-label"
-													aria-activedescendant="listbox-item-3"
-													class="max-h-56 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
-												>
-													<li
-														class="text-gray-900 cursor-default select-none relative py-2 pl-3 pr-9 flex items-center"
-														role="option"
-														data-value="1"
-													>
-														<img
-															src="https://path-to-your-icon.png"
-															alt="Miner Icon"
-															class="flex-shrink-0 h-6 w-6 rounded-full"
-														/>
-														<div class="ml-3 block">
-															<span class="font-normal block truncate"
-																>Название модели майнера 1</span
-															>
-															<span class="text-gray-500 text-sm"
-																>SHA-256 / 104 TH/s / 3200 Вт</span
-															>
-														</div>
-													</li>
-													<li
-														class="text-gray-900 cursor-default select-none relative py-2 pl-3 pr-9 flex items-center"
-														role="option"
-														data-value="2"
-													>
-														<img
-															src="https://path-to-your-icon.png"
-															alt="Miner Icon"
-															class="flex-shrink-0 h-6 w-6 rounded-full"
-														/>
-														<div class="ml-3 block">
-															<span class="font-normal block truncate"
-																>Название модели майнера 2</span
-															>
-															<span class="text-gray-500 text-sm"
-																>SHA-256 / 104 TH/s / 3200 Вт</span
-															>
-														</div>
-													</li>
-													<li
-														class="text-gray-900 cursor-default select-none relative py-2 pl-3 pr-9 flex items-center"
-														role="option"
-														data-value="3"
-													>
-														<img
-															src="https://path-to-your-icon.png"
-															alt="Miner Icon"
-															class="flex-shrink-0 h-6 w-6 rounded-full"
-														/>
-														<div class="ml-3 block">
-															<span class="font-normal block truncate"
-																>Название модели майнера 3</span
-															>
-															<span class="text-gray-500 text-sm"
-																>SHA-256 / 104 TH/s / 3200 Вт</span
-															>
-														</div>
-													</li>
-												</ul>
-											</div>
-										</div>
-									</div>
-									<div>
-										<label for="">Хешрейт</label>
-										<div>
-											<input type="text" placeholder="0" />
-											<select name="" id="">
-												<option value="" selected>Mh/s</option>
-											</select>
-										</div>
-									</div>
-									<div>
-										<label for="">Цена электроэнергии</label>
-										<div>
-											<input type="text" placeholder="0" /> <span>Кв/ч</span>
 										</div>
 									</div>
 								</section>
 
-								<section>
-									<div>
-										<label for="">Кол-во ASIC-майнеров</label>
-										<div>
+								<section class="flex flex-col gap-6">
+									<div class="flex flex-col gap-2">
+										<label
+											class="font-medium text-[14px] leading-[114%] opacity-60"
+											for=""
+											>Кол-во ASIC-майнеров</label
+										>
+										<div class="relative">
 											<input
+												class="w-full h-[66px] py-3 px-6 rounded-xl border border-solid border-black border-opacity-10 focus:border-opacity-25 focus-visible:border-opacity-25 focus-visible:border-black focus-visible:outline-none placeholder:opacity-30 placeholder:font-medium placeholder:text-[15px] placeholder:leading-[160%]"
 												type="text"
 												placeholder="Впишите кол-во майнеров"
 											/>
-											<span>шт.</span>
+											<span
+												class="absolute flex items-center inset-y-0 right-6 font-medium text-[15px] leading-[160%]"
+												>шт.</span
+											>
+										</div>
+									</div>
+									<div class="flex flex-col gap-2">
+										<label
+											class="font-medium text-[14px] leading-[114%] opacity-60"
+											for=""
+											>Потребление</label
+										>
+										<div class="relative">
+											<input
+												class="w-full h-[66px] py-3 px-6 rounded-xl border border-solid border-black border-opacity-10 focus:border-opacity-25 focus-visible:border-opacity-25 focus-visible:border-black focus-visible:outline-none placeholder:opacity-30 placeholder:font-medium placeholder:text-[15px] placeholder:leading-[160%]"
+												type="text"
+												placeholder="0"
+											/>
+											<span
+												class="absolute flex items-center inset-y-0 right-6 font-medium text-[15px] leading-[160%]"
+												>Вт</span
+											>
 										</div>
 									</div>
 									<div>
-										<label for="">Потребление</label>
-										<div>
-											<input type="text" placeholder="0" />
-											<span>Вт</span>
-										</div>
-									</div>
-									<div>
-										<label for="">Цена ASIC-майнера</label>
-										<div>
-											<input type="text" placeholder="0" />
-											<select name="" id="">
-												<option value="" selected>₽</option>
-												<option value="">$</option>
-											</select>
+										<label
+											class="font-medium text-[14px] leading-[114%] opacity-60"
+											for=""
+											>Цена ASIC-майнера</label
+										>
+										<!-- Скрытый select для ранжирования -->
+										<select class="absolute hidden" id="hidden-select">
+											<option value="₽" selected>₽</option>
+											<option value="$">$</option>
+											<option value="¥">¥</option>
+										</select>
+										<div class="flex gap-2">
+											<input
+												class="w-full h-[66px] py-3 px-6 rounded-xl border border-solid border-black border-opacity-10 focus:border-opacity-25 focus-visible:border-opacity-25 focus-visible:border-black focus-visible:outline-none placeholder:opacity-30 placeholder:font-medium placeholder:text-[15px] placeholder:leading-[160%]"
+												type="text"
+												placeholder="0"
+											/>
+											<!-- Кастомный select -->
+
+											<div
+												class="text-[#00a3ff]"
+												data-react-simple-select
+												data-placeholder="Выберите валюту"
+												data-options='["₽", "$", "¥"]'
+											></div>
 										</div>
 									</div>
 								</section>
 							</section>
-							<section>
-								<p>Стоимость оборудования</p>
-								<div><span>0</span><span>₽</span></div>
+							<section
+								class="flex flex-wrap justify-between rounded-xl gap-2 810:gap-6 p-6 bg-[rgba(152,_169,_193,_0.1);]"
+							>
+								<p class="font-medium text-[15px] leading-[160%] opacity-60">
+									Стоимость оборудования
+								</p>
+								<div class="font-bold text-[24px] leading-[133%]">
+									<span>0</span><span>₽</span>
+								</div>
 							</section>
-							<section>
-								<button>Сбросить</button>
-								<button>Показать результаты</button>
+							<section class="flex justify-center gap-3">
+								<div
+									data-react-button="cancel-button"
+									data-text="Сбросить"
+									data-class="border-black border-solid border border-opacity-10 text-[#bdbfc1] bg-white hover:bg-[#00a3ff] hover:text-white hover:border-[#00a3ff]"
+								></div>
+								<div
+									data-react-button="submit-button"
+									data-text="Показать результаты"
+									data-class="text-white bg-[#00a3ff] border-[#00a3ff] border-solid border hover:shadow-[0_4px_12px_0_rgba(0,_163,_255,_0.75)]"
+								></div>
 							</section>
 						</form>
-
-						<section>
-							<div class="flex">
-								<p>Результаты расчета</p>
-								<label class="switch">
-									<input type="checkbox" />
-									<span class="slider round"></span>
-								</label>
-							</div>
-							<div>
-								<p>Срок окупаемости</p>
-								<div><span>38</span><span>месяцев</span></div>
-							</div>
-							<div class="grid grid-cols-4">
-								<p>Затраты на размещение</p>
-								<div>
-									<p>В день</p>
-									<p><span>2 575 </span> <span>₽</span></p>
-								</div>
-								<div>
-									<p>В месяц</p>
-									<p><span>2 575 </span> <span>₽</span></p>
-								</div>
-								<div>
-									<p>В год</p>
-									<p><span>2 575 </span> <span>₽</span></p>
+					</section>
+					<section
+						class="flex flex-col gap-6 810:gap-8 px-4 py-6 1024:px-12 1024:py-10 bg-[rgba(152,_169,_193,_0.1)] rounded-3xl"
+					>
+						<div
+							class="flex flex-col gap-6 810:flex-row justify-between items-center"
+						>
+							<p class="w-full text-[20px] leading-[120%] font-semibold">
+								Результаты расчета
+							</p>
+							<div data-react-toggle-switch></div>
+						</div>
+						<div class="flex flex-col gap-2">
+							<div
+								class="flex flex-wrap gap-2 justify-between bg-black text-white rounded-3xl pt-5 pb-6 px-6 810:py-6 810:px-10"
+							>
+								<p class="text-[15px] leading-[160%] opacity-80">
+									Срок окупаемости
+								</p>
+								<div class="text-[24px] font-bold leading-[133%] uppercase">
+									<span>38</span> <span>месяцев</span>
 								</div>
 							</div>
-							<div class="grid grid-cols-4">
-								<p>Доход</p>
-								<div>
-									<p><span>2 575 </span> <span>₽</span></p>
+							<div
+								class="flex flex-col 810:grid grid-cols-[300px_1fr_1fr_1fr] gap-2 810:gap-8 810:items-end justify-between bg-black text-white rounded-3xl pt-5 pb-6 px-6 810:py-6 810:px-10"
+							>
+								<p
+									class="mb-2 810:mb-0 text-[14px] leading-[143%] font-medium 810:text-[15px] 810:leading-[160%]"
+								>
+									Затраты на размещение
+								</p>
+								<div
+									class="flex items-center justify-between 810:items-center 810:flex-col gap-4"
+								>
+									<p class="text-[14px] leading-[114%] opacity-80 font-medium">
+										В день
+									</p>
+									<p class="text-[14px] 810:text-[15px]">
+										<span>2 575 </span> <span>₽</span>
+									</p>
 								</div>
-								<div>
-									<p><span>2 575 </span> <span>₽</span></p>
+								<div
+									class="flex items-center justify-between 810:items-center 810:flex-col gap-4"
+								>
+									<p class="text-[14px] leading-[114%] opacity-80 font-medium">
+										В месяц
+									</p>
+									<p class="text-[14px] 810:text-[15px]">
+										<span>63 148</span> <span>₽</span>
+									</p>
 								</div>
-								<div>
-									<p><span>2 575 </span> <span>₽</span></p>
+								<div
+									class="flex items-center justify-between 810:items-center 810:flex-col gap-4"
+								>
+									<p class="text-[14px] leading-[114%] opacity-80 font-medium">
+										В год
+									</p>
+									<p class="text-[14px] 810:text-[15px]">
+										<span>940 160</span> <span>₽</span>
+									</p>
 								</div>
 							</div>
-							<div class="grid grid-cols-4">
-								<p>Чистая прибыль</p>
-								<div>
-									<p><span>2 575 </span> <span>₽</span></p>
+							<div
+								class="flex flex-col 810:grid grid-cols-[300px_1fr_1fr_1fr] gap-2 810:gap-8 810:items-end justify-between bg-black text-white rounded-3xl pt-5 pb-6 px-6 810:py-6 810:px-10"
+							>
+								<p
+									class="mb-2 810:mb-0 text-[14px] leading-[143%] font-medium 810:text-[15px] 810:leading-[160%]"
+								>
+									Доход
+								</p>
+								<div
+									class="flex items-center justify-between 810:items-center 810:flex-col gap-4"
+								>
+									<p
+										class="810:hidden text-[14px] leading-[114%] opacity-80 font-medium"
+									>
+										В день
+									</p>
+									<p class="text-[14px] 810:text-[15px]">
+										<span>2 575 </span> <span>₽</span>
+									</p>
 								</div>
-								<div>
-									<p><span>2 575 </span> <span>₽</span></p>
+								<div
+									class="flex items-center justify-between 810:items-center 810:flex-col gap-4"
+								>
+									<p
+										class="810:hidden text-[14px] leading-[114%] opacity-80 font-medium"
+									>
+										В месяц
+									</p>
+									<p class="text-[14px] 810:text-[15px]">
+										<span>63 148</span> <span>₽</span>
+									</p>
 								</div>
-								<div>
-									<p><span>2 575 </span> <span>₽</span></p>
+								<div
+									class="flex items-center justify-between 810:items-center 810:flex-col gap-4"
+								>
+									<p
+										class="810:hidden text-[14px] leading-[114%] opacity-80 font-medium"
+									>
+										В год
+									</p>
+									<p class="text-[14px] 810:text-[15px]">
+										<span>940 160</span> <span>₽</span>
+									</p>
 								</div>
 							</div>
-						</section>
+							<div
+								class="flex flex-col 810:grid grid-cols-[300px_1fr_1fr_1fr] gap-2 810:gap-8 810:items-end justify-between bg-black text-white rounded-3xl pt-5 pb-6 px-6 810:py-6 810:px-10"
+							>
+								<p
+									class="mb-2 810:mb-0 text-[14px] leading-[143%] font-medium 810:text-[15px] 810:leading-[160%]"
+								>
+									Чистая прибыль
+								</p>
+								<div
+									class="flex items-center justify-between 810:items-center 810:flex-col gap-4"
+								>
+									<p
+										class="810:hidden text-[14px] leading-[114%] opacity-80 font-medium"
+									>
+										В день
+									</p>
+									<p class="text-[14px] 810:text-[15px]">
+										<span>2 575 </span> <span>₽</span>
+									</p>
+								</div>
+								<div
+									class="flex items-center justify-between 810:items-center 810:flex-col gap-4"
+								>
+									<p
+										class="810:hidden text-[14px] leading-[114%] opacity-80 font-medium"
+									>
+										В месяц
+									</p>
+									<p class="text-[14px] 810:text-[15px]">
+										<span>63 148</span> <span>₽</span>
+									</p>
+								</div>
+								<div
+									class="flex items-center justify-between 810:items-center 810:flex-col gap-4"
+								>
+									<p
+										class="810:hidden text-[14px] leading-[114%] opacity-80 font-medium"
+									>
+										В год
+									</p>
+									<p class="text-[14px] 810:text-[15px]">
+										<span>940 160</span> <span>₽</span>
+									</p>
+								</div>
+							</div>
+						</div>
 					</section>
 				</article>
 			</main>
 		</div>
 	</body>
-	<script type="module" src="/main.js"></script>
+	<script type="module" src="/main.jsx"></script>
 </html>
