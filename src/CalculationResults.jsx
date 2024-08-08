@@ -1,4 +1,5 @@
 import React from "react"
+import ToggleSwitch from "./ToggleSwitch.jsx"
 
 const CalculationResults = ({ results }) => (
 	<section className="flex flex-col gap-6 810:gap-8 px-4 py-6 1024:px-12 1024:py-10 bg-[rgba(152,_169,_193,_0.1)] rounded-3xl">
@@ -6,7 +7,7 @@ const CalculationResults = ({ results }) => (
 			<p className="w-full text-[20px] leading-[120%] font-semibold">
 				Результаты расчета
 			</p>
-			<div data-react-toggle-switch></div>
+			<ToggleSwitch />
 		</div>
 		<div className="flex flex-col gap-2">
 			<div className="flex flex-wrap gap-2 justify-between bg-black text-white rounded-3xl pt-5 pb-6 px-6 810:py-6 810:px-10">
