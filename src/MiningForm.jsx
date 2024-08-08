@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import BlueButton from "./BlueButton.jsx"
 import CalculationResults from "./CalculationResults.jsx"
 import CustomSelect from "./CustomSelect.jsx"
@@ -6,9 +6,68 @@ import CustomSimpleSelect from "./CustomSimpleSelect.jsx"
 import InputField from "./InputField.jsx"
 
 const MiningForm = () => {
+	const [hashRate, setHashRate] = useState(100)
+	const [asicCount, setAsicCount] = useState(1)
+	const [powerConsumption, setPowerConsumption] = useState(1000)
+	const [electricityPrice, setElectricityPrice] = useState(6.02)
+	const [asicPrice, setAsicPrice] = useState(1500)
+	const [results, setResults] = useState({})
+
+	const networkDifficulty = 90666502495566
+	const blockTime = 10
+	const blockReward = 6.25
+	const btcToUsd = 5112667.49
+	const usdToRub = 70
+	const poolFee = 0
+
+	const calculateResults = () => {
+		const blocksPerDay = 1440 / blockTime
+
+		const dailyElectricityCost =
+			((powerConsumption * asicCount * 24) / 1000) * electricityPrice
+		const monthlyElectricityCost = dailyElectricityCost * 30
+		const yearlyElectricityCost = monthlyElectricityCost * 12
+
+		const dailyRevenue =
+			((hashRate * asicCount) / networkDifficulty) *
+			blocksPerDay *
+			blockReward *
+			btcToUsd *
+			usdToRub
+		const dailyRevenueAfterPoolFee = dailyRevenue * (1 - poolFee / 100)
+
+		const monthlyRevenue = dailyRevenueAfterPoolFee * 30
+		const yearlyRevenue = monthlyRevenue * 12
+
+		const dailyProfit = dailyRevenueAfterPoolFee - dailyElectricityCost
+		const monthlyProfit = dailyProfit * 30
+		const yearlyProfit = monthlyProfit * 12
+
+		const paybackPeriodMonths = (asicPrice * asicCount) / monthlyProfit
+
+		setResults({
+			blocksPerDay,
+			dailyElectricityCost,
+			monthlyElectricityCost,
+			yearlyElectricityCost,
+			dailyRevenue,
+			dailyRevenueAfterPoolFee,
+			monthlyRevenue,
+			yearlyRevenue,
+			dailyProfit,
+			monthlyProfit,
+			yearlyProfit,
+			paybackPeriodMonths,
+		})
+	}
+
+	useEffect(() => {
+		calculateResults()
+	}, [hashRate, asicCount, powerConsumption, electricityPrice, asicPrice])
+
 	return (
-		<section class="flex flex-col gap-6">
-			<p class="font-semibold text-[20px] leading-[120%]">
+		<section className="flex flex-col gap-6">
+			<p className="font-semibold text-[20px] leading-[120%]">
 				Укажите основные данные
 			</p>
 			<form className="flex flex-col gap-6" action="">
@@ -87,7 +146,13 @@ const MiningForm = () => {
 								placeholder={false}
 							/>
 						</div>
-						<InputField label="Хешрейт" placeholder="0">
+						<InputField
+							label="Хешрейт (TH/s)"
+							placeholder="62"
+							type="number"
+							value={hashRate}
+							onChange={e => setHashRate(parseFloat(e.target.value))}
+						>
 							<CustomSimpleSelect
 								options={["Mh/s", "Mh/s", "Mh/s"]}
 								placeholder={false}
@@ -95,20 +160,36 @@ const MiningForm = () => {
 						</InputField>
 
 						<InputField
-							label="Цена электроэнергии"
+							label="Цена электроэнергии (₽/кВт·ч)"
 							placeholder="4.7"
-							unit="Кв/ч"
+							type="number"
+							value={electricityPrice}
+							onChange={e => setElectricityPrice(parseFloat(e.target.value))}
 						/>
 					</section>
 
 					<section className="flex flex-col gap-6">
 						<InputField
-							label="Кол-во ASIC-майнеров"
-							placeholder="Впишите кол-во майнеров"
-							unit="шт."
+							label="Кол-во ASIC-майнеров (шт.)"
+							placeholder="2"
+							type="number"
+							value={asicCount}
+							onChange={e => setAsicCount(parseFloat(e.target.value))}
 						/>
-						<InputField label="Потребление" placeholder="0" unit="Вт" />
-						<InputField label="Цена ASIC-майнера" placeholder="0">
+						<InputField
+							label="Потребление (Вт)"
+							placeholder="3200"
+							type="number"
+							value={powerConsumption}
+							onChange={e => setPowerConsumption(parseFloat(e.target.value))}
+						/>
+						<InputField
+							label="Цена ASIC-майнера (₽)"
+							placeholder="50000"
+							type="number"
+							value={asicPrice}
+							onChange={e => setAsicPrice(parseFloat(e.target.value))}
+						>
 							<CustomSimpleSelect
 								options={["₽", "$", "¥"]}
 								placeholder="Выберите валюту"
@@ -121,14 +202,21 @@ const MiningForm = () => {
 						Стоимость оборудования
 					</p>
 					<div className="font-bold text-[24px] leading-[133%]">
-						<span>0</span>
-						<span>₽</span>
+						<span>{results.paybackPeriodMonths?.toFixed(2)}</span>
+						<span> месяцев</span>
 					</div>
 				</section>
 				<section className="flex justify-center gap-3">
 					<BlueButton
 						text="Сбросить"
 						className="border-black border-solid border border-opacity-10 text-[#bdbfc1] bg-white hover:bg-[#00a3ff] hover:text-white hover:border-[#00a3ff]"
+						onClick={() => {
+							setHashRate(62)
+							setAsicCount(2)
+							setPowerConsumption(3200)
+							setElectricityPrice(4.7)
+							setAsicPrice(50000)
+						}}
 					/>
 
 					<BlueButton
@@ -137,7 +225,7 @@ const MiningForm = () => {
 					/>
 				</section>
 			</form>
-			<CalculationResults />
+			<CalculationResults results={results} />
 		</section>
 	)
 }
