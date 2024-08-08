@@ -15,10 +15,12 @@ const CustomSimpleSelect = ({ options, placeholder }) => {
 				type="button"
 				onClick={() => setIsOpen(!isOpen)}
 				className={`relative h-[66px] w-full bg-white border border-black border-opacity-10 ${
-					isOpen ? "rounded-t-xl shadow-md" : "rounded-xl shadow-none"
+					isOpen
+						? "rounded-t-xl shadow-[0_4px_16px_0_rgba(0,182,255,0.2)]"
+						: "rounded-xl shadow-none"
 				} px-4 py-2 cursor-default transition-all duration-300`}
 			>
-				<span className="block mr-8">{selectedOption}</span>
+				<span className="text-[#00A3FF] block mr-8">{selectedOption}</span>
 				<span
 					className={`absolute px-4 inset-y-0 right-0 flex items-center pointer-events-none transition-transform duration-300 ${
 						isOpen ? "rotate-180" : "rotate-0"
@@ -40,7 +42,7 @@ const CustomSimpleSelect = ({ options, placeholder }) => {
 			</button>
 
 			<div
-				className={`absolute w-full rounded-b-xl z-10 bg-white shadow-md transition-all duration-300 ease-out transform ${
+				className={`absolute w-full rounded-b-xl z-10  bg-white shadow-[0_4px_16px_0_rgba(0,182,255,0.2)] transition-all duration-300 ease-out transform ${
 					isOpen ? "max-h-60 opacity-100" : "max-h-0 opacity-0"
 				} overflow-hidden`}
 			>
@@ -48,7 +50,7 @@ const CustomSimpleSelect = ({ options, placeholder }) => {
 					{options.map(option => (
 						<li
 							key={option}
-							className="text-gray-900 cursor-default select-none relative py-2 px-4"
+							className="text-[#00A3FF] cursor-default select-none relative py-2 px-4"
 							role="option"
 							onClick={() => handleOptionClick(option)}
 						>
