@@ -1,16 +1,22 @@
 import React, { useEffect, useState } from "react"
 import BlueButton from "./BlueButton.jsx"
 import CalculationResults from "./CalculationResults.jsx"
+import { currencyes } from "./currencyes"
 import CustomSelect from "./CustomSelect.jsx"
 import CustomSimpleSelect from "./CustomSimpleSelect.jsx"
 import InputField from "./InputField.jsx"
+import { minerModels } from "./models"
 
 const MiningForm = () => {
-	const [hashRate, setHashRate] = useState(100)
+	const initialMinerModel = minerModels[0]
+
+	const [hashRate, setHashRate] = useState(initialMinerModel.hashrate)
 	const [asicCount, setAsicCount] = useState(1)
-	const [powerConsumption, setPowerConsumption] = useState(1000)
+	const [powerConsumption, setPowerConsumption] = useState(
+		initialMinerModel.powerConsumption
+	)
 	const [electricityPrice, setElectricityPrice] = useState(6.02)
-	const [asicPrice, setAsicPrice] = useState(1500)
+	const [asicPrice, setAsicPrice] = useState(initialMinerModel.asicPrice)
 	const [results, setResults] = useState({})
 
 	const networkDifficulty = 90666502495566
@@ -65,6 +71,12 @@ const MiningForm = () => {
 		calculateResults()
 	}, [hashRate, asicCount, powerConsumption, electricityPrice, asicPrice])
 
+	const handleMinerModelSelect = model => {
+		setHashRate(model.hashrate)
+		setPowerConsumption(model.powerConsumption)
+		setAsicPrice(model.asicPrice)
+	}
+
 	return (
 		<section className="flex flex-col gap-6">
 			<p className="font-semibold text-[20px] leading-[120%]">
@@ -83,29 +95,7 @@ const MiningForm = () => {
 						<option value="ltc">LTC (Litecoin)</option>
 					</select>
 
-					<CustomSelect
-						options={[
-							{
-								value: "btc",
-								label: "BTC (Bitcoin)",
-								icon: "https://path-to-your-btc-icon.png",
-								description: "SHA-256",
-							},
-							{
-								value: "eth",
-								label: "ETH (Ethereum)",
-								icon: "https://path-to-your-eth-icon.png",
-								description: "Ethash",
-							},
-							{
-								value: "ltc",
-								label: "LTC (Litecoin)",
-								icon: "https://path-to-your-ltc-icon.png",
-								description: "Scrypt",
-							},
-						]}
-						placeholder={true}
-					/>
+					<CustomSelect options={currencyes} placeholder={true} />
 				</div>
 
 				<section className="grid 810:grid-cols-2 gap-6">
@@ -123,38 +113,20 @@ const MiningForm = () => {
 							</select>
 
 							<CustomSelect
-								options={[
-									{
-										value: "1",
-										label: "Название модели майнера 1",
-										icon: "https://path-to-your-icon.png",
-										description: "SHA-256 / 104 TH/s / 3200 Вт",
-									},
-									{
-										value: "2",
-										label: "Название модели майнера 2",
-										icon: "https://path-to-your-icon.png",
-										description: "SHA-256 / 104 TH/s / 3200 Вт",
-									},
-									{
-										value: "3",
-										label: "Название модели майнера 3",
-										icon: "https://path-to-your-icon.png",
-										description: "SHA-256 / 104 TH/s / 3200 Вт",
-									},
-								]}
-								placeholder={false}
+								options={minerModels}
+								placeholder={true}
+								onSelect={handleMinerModelSelect}
 							/>
 						</div>
 						<InputField
-							label="Хешрейт (TH/s)"
+							label="Хешрейт (Th/s)"
 							placeholder="62"
 							type="number"
 							value={hashRate}
 							onChange={e => setHashRate(parseFloat(e.target.value))}
 						>
 							<CustomSimpleSelect
-								options={["Mh/s", "Mh/s", "Mh/s"]}
+								options={["Th/s", "Gh/s", "Mh/s"]}
 								placeholder={false}
 							/>
 						</InputField>
@@ -191,7 +163,7 @@ const MiningForm = () => {
 							onChange={e => setAsicPrice(parseFloat(e.target.value))}
 						>
 							<CustomSimpleSelect
-								options={["₽", "$", "¥"]}
+								options={["₽", "$"]}
 								placeholder="Выберите валюту"
 							/>
 						</InputField>

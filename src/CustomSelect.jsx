@@ -1,12 +1,14 @@
 import React, { useState } from "react"
+import styles from "./CustomSelect.module.css"
 
-const CustomSelect = ({ options, placeholder }) => {
+const CustomSelect = ({ options, placeholder, onSelect }) => {
 	const [selectedOption, setSelectedOption] = useState(options[0])
 	const [isOpen, setIsOpen] = useState(false)
 
 	const handleOptionClick = option => {
 		setSelectedOption(option)
 		setIsOpen(false)
+		onSelect(option)
 	}
 
 	return (
@@ -15,7 +17,7 @@ const CustomSelect = ({ options, placeholder }) => {
 				<button
 					type="button"
 					onClick={() => setIsOpen(!isOpen)}
-					className={`relative w-full h-[66px] bg-white border border-black border-opacity-10 ${
+					className={`cursor-pointer relative w-full h-[66px] bg-white border border-black border-opacity-10 ${
 						isOpen
 							? "rounded-t-xl shadow-[0_4px_16px_0_rgba(0,182,255,0.2)]"
 							: "rounded-xl shadow-none"
@@ -23,11 +25,13 @@ const CustomSelect = ({ options, placeholder }) => {
 				>
 					<span className="flex items-center gap-4">
 						<div className="relative max-w-10 w-10 max-h-10 h-10 rounded-full overflow-hidden bg-gray-500">
-							<img
-								src={selectedOption.icon}
-								alt={selectedOption.label}
-								className="absolute w-full h-full bg-cover bg-center"
-							/>
+							{selectedOption.icon && (
+								<img
+									src={selectedOption.icon}
+									alt={selectedOption.label}
+									className="absolute w-full h-full bg-cover bg-center"
+								/>
+							)}
 						</div>
 						<div className="flex flex-col items-start gap-[2px]">
 							<span className="font-medium text-[15px] leading-[160%]">
@@ -35,7 +39,19 @@ const CustomSelect = ({ options, placeholder }) => {
 							</span>
 							{placeholder && (
 								<span className="font-medium text-[14px] leading-[114%] opacity-30">
-									{selectedOption.description}
+									{selectedOption.description && selectedOption.description}
+									{selectedOption.model &&
+										selectedOption.hashrate &&
+										selectedOption.powerConsumption && (
+											<>
+												{selectedOption.model}
+												{" / "}
+												{selectedOption.hashrate}
+												{" TH/s / "}
+												{selectedOption.powerConsumption}
+												{" Вт"}
+											</>
+										)}
 								</span>
 							)}
 						</div>
@@ -76,23 +92,40 @@ const CustomSelect = ({ options, placeholder }) => {
 					{options.map(option => (
 						<li
 							key={option.value}
-							className="text-gray-900 cursor-default select-none relative py-4 px-6 flex items-center"
+							className={`${styles["custom-option"]} cursor-pointer select-none relative py-4 px-6 flex items-center transition-opacity duration-300`}
 							role="option"
 							onClick={() => handleOptionClick(option)}
 						>
 							<div className="relative max-w-10 w-10 max-h-10 h-10 rounded-full overflow-hidden bg-gray-500">
-								<img
-									src={option.icon}
-									alt={`${option.label} Icon`}
-									className="absolute w-full h-full bg-cover bg-center"
-								/>
+								{selectedOption.icon && (
+									<img
+										src={option.icon}
+										alt={`${option.label} Icon`}
+										className="absolute w-full h-full bg-cover bg-center"
+									/>
+								)}
 							</div>
 							<div className="ml-3 block">
-								<span className="font-normal block truncate">
+								<span
+									className={`${styles["custom-option-label"]} font-normal block truncate opacity-80 transition-opacity duration-300`}
+								>
 									{option.label}
 								</span>
-								<span className="text-gray-500 text-sm">
-									{option.description}
+								<span
+									className={`${styles["custom-option-description"]} opacity-30 text-sm transition-opacity duration-300`}
+								>
+									{option.model &&
+										option.hashrate &&
+										option.powerConsumption && (
+											<>
+												{option.model}
+												{" / "}
+												{option.hashrate}
+												{" TH/s / "}
+												{option.powerConsumption}
+												{" Вт"}
+											</>
+										)}
 								</span>
 							</div>
 						</li>
@@ -102,5 +135,4 @@ const CustomSelect = ({ options, placeholder }) => {
 		</div>
 	)
 }
-
 export default CustomSelect

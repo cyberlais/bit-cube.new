@@ -1,0 +1,9 @@
+.custom-option:hover {
+	opacity: 1;
+	.custom-option-label {
+		opacity: 1;
+	}
+	.custom-option-description {
+		opacity: 0.5;
+	}
+}

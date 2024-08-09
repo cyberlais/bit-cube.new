@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 
-const CustomSimpleSelect = ({ options, placeholder }) => {
+const CustomSimpleSelect = ({ options }) => {
 	const [selectedOption, setSelectedOption] = useState(options[0])
 	const [isOpen, setIsOpen] = useState(false)
 
@@ -14,7 +14,7 @@ const CustomSimpleSelect = ({ options, placeholder }) => {
 			<button
 				type="button"
 				onClick={() => setIsOpen(!isOpen)}
-				className={`relative h-[66px] w-full bg-white border border-black border-opacity-10 ${
+				className={`cursor-pointer relative h-[66px] w-full bg-white border border-black border-opacity-10 ${
 					isOpen
 						? "rounded-t-xl shadow-[0_4px_16px_0_rgba(0,182,255,0.2)]"
 						: "rounded-xl shadow-none"
@@ -50,7 +50,7 @@ const CustomSimpleSelect = ({ options, placeholder }) => {
 					{options.map(option => (
 						<li
 							key={option}
-							className="text-[#00A3FF] cursor-default select-none relative py-2 px-4"
+							className="cursor-pointer opacity-30 hover:opacity-100 select-none relative py-2 px-4 transition-opacity duration-300"
 							role="option"
 							onClick={() => handleOptionClick(option)}
 						>
