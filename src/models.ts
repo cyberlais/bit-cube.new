@@ -8,6 +8,13 @@ export interface MinerModel {
 
 export const minerModels: MinerModel[] = [
 		{
+			"label": "Выберите модель",
+			"model": "",
+			"hashrate": 0,
+			"powerConsumption": 0,
+			"asicPrice": 0
+		},
+		{
 			"label": "WHATS MINER M50",
 			"model": "M50",
 			"hashrate": 118,

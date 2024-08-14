@@ -49,7 +49,9 @@ const MiningForm = () => {
 		const monthlyProfit = dailyProfit * 30
 		const yearlyProfit = monthlyProfit * 12
 
-		const paybackPeriodMonths = (asicPrice * asicCount) / monthlyProfit
+		const totalAsicPrice = asicPrice * asicCount
+
+		const paybackPeriodMonths = totalAsicPrice / monthlyProfit
 
 		setResults({
 			blocksPerDay,
@@ -63,6 +65,7 @@ const MiningForm = () => {
 			dailyProfit,
 			monthlyProfit,
 			yearlyProfit,
+			totalAsicPrice,
 			paybackPeriodMonths,
 		})
 	}
@@ -174,8 +177,8 @@ const MiningForm = () => {
 						Стоимость оборудования
 					</p>
 					<div className="font-bold text-[24px] leading-[133%]">
-						<span>{results.paybackPeriodMonths?.toFixed(2)}</span>
-						<span> месяцев</span>
+						<span>{results.totalAsicPrice}</span>
+						<span> ₽</span>
 					</div>
 				</section>
 				<section className="flex justify-center gap-3">
