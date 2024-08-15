@@ -26,7 +26,7 @@ const CustomCryptoSelect = ({ options, onSelect, placeholder }) => {
 					}  px-6 py-3 cursor-default transition-all duration-300`}
 				>
 					<span className="flex items-center gap-4">
-						<div className="relative max-w-10 w-10 max-h-10 h-10 rounded-full overflow-hidden bg-gray-500">
+						<div className="relative max-w-10 w-10 max-h-10 h-10 rounded-full overflow-hidden ">
 							{selectedOption && selectedOption.icon && (
 								<img
 									src={selectedOption.icon}
@@ -81,7 +81,7 @@ const CustomCryptoSelect = ({ options, onSelect, placeholder }) => {
 							role="option"
 							onClick={() => handleOptionClick(option)}
 						>
-							<div className="relative max-w-10 w-10 max-h-10 h-10 rounded-full overflow-hidden bg-gray-500">
+							<div className="relative max-w-10 w-10 max-h-10 h-10 rounded-full overflow-hidden ">
 								{option.icon && (
 									<img
 										src={option.icon}
