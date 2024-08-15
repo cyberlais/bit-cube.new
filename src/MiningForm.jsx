@@ -120,7 +120,7 @@ const MiningForm = () => {
 		setBlockTime(crypto.blockTime)
 		setBlockReward(crypto.blockReward)
 		setCryptoPrice(crypto.price)
-		setCryptoPrice(crypto.price * exchangeRate); // Конвертация цены в рубли
+		setCryptoPrice(crypto.price * exchangeRate) // Конвертация цены в рубли
 	}
 
 	return (
