@@ -163,6 +163,7 @@ const MiningForm = () => {
 							type="number"
 							value={hashRate}
 							onChange={e => setHashRate(parseFloat(e.target.value))}
+							required={true}
 						>
 							<CustomSimpleSelect
 								options={["Th/s", "Gh/s", "Mh/s"]}
@@ -176,6 +177,7 @@ const MiningForm = () => {
 							type="number"
 							value={electricityPrice}
 							onChange={e => setElectricityPrice(parseFloat(e.target.value))}
+							required={true}
 						/>
 					</section>
 
@@ -186,6 +188,7 @@ const MiningForm = () => {
 							type="number"
 							value={asicCount}
 							onChange={e => setAsicCount(parseFloat(e.target.value))}
+							required={true}
 						/>
 						<InputField
 							label="Потребление (Вт)"
@@ -193,6 +196,7 @@ const MiningForm = () => {
 							type="number"
 							value={powerConsumption}
 							onChange={e => setPowerConsumption(parseFloat(e.target.value))}
+							required={true}
 						/>
 						<InputField
 							label="Цена ASIC-майнера (₽)"
@@ -200,6 +204,7 @@ const MiningForm = () => {
 							type="number"
 							value={asicPrice}
 							onChange={e => setAsicPrice(parseFloat(e.target.value))}
+							required={true}
 						>
 							<CustomSimpleSelect
 								options={["₽", "$"]}
