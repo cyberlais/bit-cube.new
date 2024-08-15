@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 
 const ToggleSwitch = () => {
-	const [isOn, setIsOn] = useState(true) // По умолчанию переключатель на "Доллары"
+	const [isOn, setIsOn] = useState(false)
 
 	const toggleSwitch = () => {
 		setIsOn(!isOn)
