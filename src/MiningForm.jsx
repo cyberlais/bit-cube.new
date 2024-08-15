@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react"
 import BlueButton from "./BlueButton.jsx"
 import CalculationResults from "./CalculationResults.jsx"
-import { currencyes } from "./currencyes"
+import CustomCryptoSelect from "./CustomCryptoSelect.jsx"
 import CustomSelect from "./CustomSelect.jsx"
 import CustomSimpleSelect from "./CustomSimpleSelect.jsx"
 import InputField from "./InputField.jsx"
 import { minerModels } from "./models"
+import { fetchAllCryptoData } from "./utils/cryptoData"
 
 const MiningForm = () => {
 	const initialMinerModel = minerModels[0]
@@ -18,11 +19,14 @@ const MiningForm = () => {
 	const [electricityPrice, setElectricityPrice] = useState(6.02)
 	const [asicPrice, setAsicPrice] = useState(initialMinerModel.asicPrice)
 	const [results, setResults] = useState({})
+	const [cryptoDataArray, setCryptoDataArray] = useState([])
 
-	const networkDifficulty = 90666502495566
-	const blockTime = 10
-	const blockReward = 6.25
-	const btcToUsd = 5112667.49
+	// Состояния для переменных, которые нужно обновлять
+	const [networkDifficulty, setNetworkDifficulty] = useState(90666502495566)
+	const [blockTime, setBlockTime] = useState(10)
+	const [blockReward, setBlockReward] = useState(6.25)
+	const [cryptoPrice, setCryptoPrice] = useState(5112667.49)
+
 	const usdToRub = 70
 	const poolFee = 0
 
@@ -38,7 +42,7 @@ const MiningForm = () => {
 			((hashRate * asicCount) / networkDifficulty) *
 			blocksPerDay *
 			blockReward *
-			btcToUsd *
+			cryptoPrice *
 			usdToRub
 		const dailyRevenueAfterPoolFee = dailyRevenue * (1 - poolFee / 100)
 
@@ -72,7 +76,26 @@ const MiningForm = () => {
 
 	useEffect(() => {
 		calculateResults()
-	}, [hashRate, asicCount, powerConsumption, electricityPrice, asicPrice])
+	}, [
+		hashRate,
+		asicCount,
+		powerConsumption,
+		electricityPrice,
+		asicPrice,
+		networkDifficulty,
+		blockTime,
+		blockReward,
+		cryptoPrice,
+	])
+
+	useEffect(() => {
+		const fetchData = async () => {
+			const data = await fetchAllCryptoData()
+			setCryptoDataArray(data)
+		}
+
+		fetchData()
+	}, [])
 
 	const handleMinerModelSelect = model => {
 		setHashRate(model.hashrate)
@@ -80,12 +103,20 @@ const MiningForm = () => {
 		setAsicPrice(model.asicPrice)
 	}
 
+	// Функция для обновления переменных на основе выбранной криптовалюты
+	const handleCryptoSelect = crypto => {
+		setNetworkDifficulty(crypto.difficulty)
+		setBlockTime(crypto.blockTime)
+		setBlockReward(crypto.blockReward)
+		setCryptoPrice(crypto.price)
+	}
+
 	return (
 		<section className="flex flex-col gap-6">
 			<p className="font-semibold text-[20px] leading-[120%]">
 				Укажите основные данные
 			</p>
-			<form className="flex flex-col gap-6" action="">
+			<section className="flex flex-col gap-6">
 				<div className="flex flex-col gap-2">
 					<label className="font-medium text-[14px] leading-[114%] opacity-60">
 						Добываемая монета/алгоритм
@@ -97,8 +128,13 @@ const MiningForm = () => {
 						<option value="eth">ETH (Ethereum)</option>
 						<option value="ltc">LTC (Litecoin)</option>
 					</select>
-
-					<CustomSelect options={currencyes} placeholder={true} />
+					{cryptoDataArray.length > 0 && (
+						<CustomCryptoSelect
+							options={cryptoDataArray}
+							onSelect={handleCryptoSelect}
+							placeholder={true}
+						/>
+					)}
 				</div>
 
 				<section className="grid 810:grid-cols-2 gap-6">
@@ -177,7 +213,7 @@ const MiningForm = () => {
 						Стоимость оборудования
 					</p>
 					<div className="font-bold text-[24px] leading-[133%]">
-						<span>{results.totalAsicPrice}</span>
+						<>{isNaN(results.totalAsicPrice) ? "0" : results.totalAsicPrice}</>
 						<span> ₽</span>
 					</div>
 				</section>
@@ -195,11 +231,12 @@ const MiningForm = () => {
 					/>
 
 					<BlueButton
+						onClick={calculateResults}
 						text="Показать результаты"
 						className="text-white bg-[#00a3ff] border-[#00a3ff] border-solid border hover:shadow-[0_4px_12px_0_rgba(0,_163,_255,_0.75)]"
 					/>
 				</section>
-			</form>
+			</section>
 			<CalculationResults results={results} />
 		</section>
 	)

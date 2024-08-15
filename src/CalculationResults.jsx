@@ -17,8 +17,8 @@ const CalculationResults = ({ results }) => (
 				<div className="text-[24px] font-bold leading-[133%] uppercase">
 					<span>
 						{isNaN(results.paybackPeriodMonths)
-							? ""
-							: results.paybackPeriodMonths?.toFixed(2)}
+							? "0"
+							: results.paybackPeriodMonths?.toFixed(0)}
 					</span>
 					<span>{isNaN(results.paybackPeriodMonths) ? "" : " месяцев"}</span>
 				</div>
@@ -32,7 +32,11 @@ const CalculationResults = ({ results }) => (
 						В день
 					</p>
 					<p className="text-[14px] 810:text-[15px]">
-						<span>{results.dailyElectricityCost?.toFixed(2)}</span>{" "}
+						<span>
+							{isNaN(results.dailyElectricityCost)
+								? "0"
+								: results.dailyElectricityCost?.toFixed(0)}
+						</span>{" "}
 						<span>₽</span>
 					</p>
 				</div>
@@ -41,7 +45,11 @@ const CalculationResults = ({ results }) => (
 						В месяц
 					</p>
 					<p className="text-[14px] 810:text-[15px]">
-						<span>{results.monthlyElectricityCost?.toFixed(2)}</span>{" "}
+						<span>
+							{isNaN(results.monthlyElectricityCost)
+								? "0"
+								: results.monthlyElectricityCost?.toFixed(0)}
+						</span>{" "}
 						<span>₽</span>
 					</p>
 				</div>
@@ -50,7 +58,11 @@ const CalculationResults = ({ results }) => (
 						В год
 					</p>
 					<p className="text-[14px] 810:text-[15px]">
-						<span>{results.yearlyElectricityCost?.toFixed(2)}</span>{" "}
+						<span>
+							{isNaN(results.yearlyElectricityCost)
+								? "0"
+								: results.yearlyElectricityCost?.toFixed(0)}
+						</span>{" "}
 						<span>₽</span>
 					</p>
 				</div>
@@ -64,7 +76,11 @@ const CalculationResults = ({ results }) => (
 						В день
 					</p>
 					<p className="text-[14px] 810:text-[15px]">
-						<span>{results.dailyRevenueAfterPoolFee?.toFixed(2)}</span>{" "}
+						<span>
+							{isNaN(results.dailyRevenueAfterPoolFee)
+								? "0"
+								: results.dailyRevenueAfterPoolFee?.toFixed(0)}
+						</span>{" "}
 						<span>₽</span>
 					</p>
 				</div>
@@ -73,7 +89,12 @@ const CalculationResults = ({ results }) => (
 						В месяц
 					</p>
 					<p className="text-[14px] 810:text-[15px]">
-						<span>{results.monthlyRevenue?.toFixed(2)}</span> <span>₽</span>
+						<span>
+							{isNaN(results.monthlyRevenue)
+								? "0"
+								: results.monthlyRevenue?.toFixed(0)}
+						</span>{" "}
+						<span>₽</span>
 					</p>
 				</div>
 				<div className="flex items-center justify-between 810:items-center 810:flex-col gap-4">
@@ -81,7 +102,12 @@ const CalculationResults = ({ results }) => (
 						В год
 					</p>
 					<p className="text-[14px] 810:text-[15px]">
-						<span>{results.yearlyRevenue?.toFixed(2)}</span> <span>₽</span>
+						<span>
+							{isNaN(results.yearlyRevenue)
+								? "0"
+								: results.yearlyRevenue?.toFixed(0)}
+						</span>{" "}
+						<span>₽</span>
 					</p>
 				</div>
 			</div>
@@ -94,7 +120,12 @@ const CalculationResults = ({ results }) => (
 						В день
 					</p>
 					<p className="text-[14px] 810:text-[15px]">
-						<span>{results.dailyProfit?.toFixed(2)}</span> <span>₽</span>
+						<span>
+							{isNaN(results.dailyProfit)
+								? "0"
+								: results.dailyProfit?.toFixed(0)}
+						</span>{" "}
+						<span>₽</span>
 					</p>
 				</div>
 				<div className="flex items-center justify_between 810:items-center 810:flex-col gap-4">
@@ -102,7 +133,12 @@ const CalculationResults = ({ results }) => (
 						В месяц
 					</p>
 					<p className="text-[14px] 810:text-[15px]">
-						<span>{results.monthlyProfit?.toFixed(2)}</span> <span>₽</span>
+						<span>
+							{isNaN(results.monthlyProfit)
+								? "0"
+								: results.monthlyProfit?.toFixed(0)}
+						</span>{" "}
+						<span>₽</span>
 					</p>
 				</div>
 				<div className="flex items-center justify_between 810:items-center 810:flex-col gap-4">
@@ -110,7 +146,12 @@ const CalculationResults = ({ results }) => (
 						В год
 					</p>
 					<p className="text-[14px] 810:text-[15px]">
-						<span>{results.yearlyProfit?.toFixed(2)}</span> <span>₽</span>
+						<span>
+							{isNaN(results.yearlyProfit)
+								? "0"
+								: results.yearlyProfit?.toFixed(0)}
+						</span>{" "}
+						<span>₽</span>
 					</p>
 				</div>
 			</div>
