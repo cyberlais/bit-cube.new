@@ -33,8 +33,7 @@ const MiningForm = () => {
 
 	// Функция для расчета результатов
 	const calculateResults = () => {
-		const blocksPerDay = 1440 / blockTime
-
+		const blocksPerDay = 1440 / (blockTime / 60)
 		const dailyElectricityCost =
 			((powerConsumption * asicCount * 24) / 1000) * electricityPrice
 		const monthlyElectricityCost = dailyElectricityCost * 30
