@@ -24,10 +24,10 @@ const CustomSelect = ({ options, placeholder, onSelect }) => {
 					}  px-6 py-3 cursor-default transition-all duration-300`}
 				>
 					<span className="flex items-center gap-4">
-						<div className="relative max-w-10 w-10 max-h-10 h-10 rounded-full overflow-hidden bg-gray-500">
-							{selectedOption.icon && (
+						<div className="relative max-w-10 w-10 max-h-10 h-10 rounded-full overflow-hidden ">
+							{selectedOption.image && (
 								<img
-									src={selectedOption.icon}
+									src={selectedOption.image}
 									alt={selectedOption.label}
 									className="absolute w-full h-full bg-cover bg-center"
 								/>
@@ -96,10 +96,10 @@ const CustomSelect = ({ options, placeholder, onSelect }) => {
 							role="option"
 							onClick={() => handleOptionClick(option)}
 						>
-							<div className="relative max-w-10 w-10 max-h-10 h-10 rounded-full overflow-hidden bg-gray-500">
-								{selectedOption.icon && (
+							<div className="relative max-w-10 w-10 max-h-10 h-10 rounded-full overflow-hidden ">
+								{option.image && (
 									<img
-										src={option.icon}
+										src={option.image}
 										alt={`${option.label} Icon`}
 										className="absolute w-full h-full bg-cover bg-center"
 									/>
@@ -135,4 +135,5 @@ const CustomSelect = ({ options, placeholder, onSelect }) => {
 		</div>
 	)
 }
+
 export default CustomSelect
