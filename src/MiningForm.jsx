@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import BlueButton from "./BlueButton.jsx"
 import CalculationResults from "./CalculationResults.jsx"
+import { getExchangeRate } from "./currencies.ts"
 import CustomCryptoSelect from "./CustomCryptoSelect.jsx"
 import CustomSelect from "./CustomSelect.jsx"
 import CustomSimpleSelect from "./CustomSimpleSelect.jsx"
@@ -20,6 +21,7 @@ const MiningForm = () => {
 	const [asicPrice, setAsicPrice] = useState(initialMinerModel.asicPrice)
 	const [results, setResults] = useState({})
 	const [cryptoDataArray, setCryptoDataArray] = useState([])
+	const [exchangeRate, setExchangeRate] = useState(70) // Состояние для курса валют
 
 	// Состояния для переменных, которые нужно обновлять
 	const [networkDifficulty, setNetworkDifficulty] = useState(90666502495566)
@@ -27,10 +29,10 @@ const MiningForm = () => {
 	const [blockReward, setBlockReward] = useState(6.25)
 	const [cryptoPrice, setCryptoPrice] = useState(5112667.49)
 
-	const usdToRub = 70
 	const poolFee = 0
 
 	const calculateResults = () => {
+		console.log(cryptoPrice)
 		const blocksPerDay = 1440 / blockTime
 
 		const dailyElectricityCost =
@@ -43,7 +45,7 @@ const MiningForm = () => {
 			blocksPerDay *
 			blockReward *
 			cryptoPrice *
-			usdToRub
+			exchangeRate
 		const dailyRevenueAfterPoolFee = dailyRevenue * (1 - poolFee / 100)
 
 		const monthlyRevenue = dailyRevenueAfterPoolFee * 30
@@ -97,10 +99,19 @@ const MiningForm = () => {
 		fetchData()
 	}, [])
 
+	useEffect(() => {
+		const fetchExchangeRate = async () => {
+			const rate = await getExchangeRate()
+			setExchangeRate(rate)
+		}
+
+		fetchExchangeRate()
+	}, [])
+
 	const handleMinerModelSelect = model => {
 		setHashRate(model.hashrate)
 		setPowerConsumption(model.powerConsumption)
-		setAsicPrice(model.asicPrice)
+		setAsicPrice(model.asicPrice * exchangeRate) // Конвертация цены в рубли
 	}
 
 	// Функция для обновления переменных на основе выбранной криптовалюты
@@ -109,6 +120,7 @@ const MiningForm = () => {
 		setBlockTime(crypto.blockTime)
 		setBlockReward(crypto.blockReward)
 		setCryptoPrice(crypto.price)
+		setCryptoPrice(crypto.price * exchangeRate); // Конвертация цены в рубли
 	}
 
 	return (
@@ -202,7 +214,7 @@ const MiningForm = () => {
 							label="Цена ASIC-майнера (₽)"
 							placeholder="50000"
 							type="number"
-							value={asicPrice}
+							value={asicPrice.toFixed(0)}
 							onChange={e => setAsicPrice(parseFloat(e.target.value))}
 							required={true}
 						>
@@ -218,7 +230,11 @@ const MiningForm = () => {
 						Стоимость оборудования
 					</p>
 					<div className="font-bold text-[24px] leading-[133%]">
-						<>{isNaN(results.totalAsicPrice) ? "0" : results.totalAsicPrice}</>
+						<>
+							{isNaN(results.totalAsicPrice)
+								? "0"
+								: results.totalAsicPrice.toFixed(0)}
+						</>
 						<span> ₽</span>
 					</div>
 				</section>

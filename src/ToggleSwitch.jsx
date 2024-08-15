@@ -1,10 +1,8 @@
-import React, { useState } from "react"
+import React from "react"
 
-const ToggleSwitch = () => {
-	const [isOn, setIsOn] = useState(false)
-
+const ToggleSwitch = ({ isUSD, setIsUSD }) => {
 	const toggleSwitch = () => {
-		setIsOn(!isOn)
+		setIsUSD(!isUSD)
 	}
 
 	return (
@@ -16,14 +14,14 @@ const ToggleSwitch = () => {
 				<div className="relative w-full h-full flex">
 					<div
 						className={`absolute left-0 w-[50px] h-full flex items-center justify-center text-[#bdbfc1] transition-opacity duration-300 ${
-							isOn ? "opacity-100" : "opacity-0"
+							isUSD ? "opacity-100" : "opacity-0"
 						}`}
 					>
 						₽
 					</div>
 					<div
 						className={`absolute right-0 w-[50px] h-full flex items-center justify-center text-[#bdbfc1] transition-opacity duration-300 ${
-							isOn ? "opacity-0" : "opacity-100"
+							isUSD ? "opacity-0" : "opacity-100"
 						}`}
 					>
 						$
@@ -31,19 +29,19 @@ const ToggleSwitch = () => {
 				</div>
 				<div
 					className={`absolute top-0 bottom-0 left-0 flex items-center justify-center w-[130px] h-full rounded-xl transition-transform duration-300 bg-[#5100ff] text-white ${
-						isOn ? "transform translate-x-[50px]" : ""
+						isUSD ? "transform translate-x-[50px]" : ""
 					}`}
 				>
 					<div
 						className={`absolute flex items-center justify-center transition-opacity duration-300 ${
-							isOn ? "opacity-100" : "opacity-0"
+							isUSD ? "opacity-100" : "opacity-0"
 						}`}
 					>
 						$ <span className="ml-2">Доллары</span>
 					</div>
 					<div
 						className={`absolute flex items-center justify-center transition-opacity duration-300 ${
-							isOn ? "opacity-0" : "opacity-100"
+							isUSD ? "opacity-0" : "opacity-100"
 						}`}
 					>
 						₽ <span className="ml-2">Рубли</span>

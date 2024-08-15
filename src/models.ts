@@ -1,3 +1,4 @@
+
 export interface MinerModel {
   label: string;
   model: string;
