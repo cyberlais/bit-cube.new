@@ -31,8 +31,8 @@ const MiningForm = () => {
 
 	const poolFee = 0
 
+	// Функция для расчета результатов
 	const calculateResults = () => {
-		console.log(cryptoPrice)
 		const blocksPerDay = 1440 / blockTime
 
 		const dailyElectricityCost =
@@ -44,8 +44,7 @@ const MiningForm = () => {
 			((hashRate * asicCount) / networkDifficulty) *
 			blocksPerDay *
 			blockReward *
-			cryptoPrice *
-			exchangeRate
+			cryptoPrice
 		const dailyRevenueAfterPoolFee = dailyRevenue * (1 - poolFee / 100)
 
 		const monthlyRevenue = dailyRevenueAfterPoolFee * 30
@@ -76,8 +75,19 @@ const MiningForm = () => {
 		})
 	}
 
+	// Функция сброса всех значений к начальному состоянию
+	const resetForm = () => {
+		setHashRate(initialMinerModel.hashrate)
+		setAsicCount(1)
+		setPowerConsumption(initialMinerModel.powerConsumption)
+		setElectricityPrice(6.02)
+		setAsicPrice(initialMinerModel.asicPrice)
+		setCryptoPrice(5112667.49)
+		setResults({}) // Сбрасываем результаты
+	}
+
 	useEffect(() => {
-		calculateResults()
+		calculateResults() // Рассчитываем результаты при изменении зависимостей
 	}, [
 		hashRate,
 		asicCount,
@@ -114,12 +124,10 @@ const MiningForm = () => {
 		setAsicPrice(model.asicPrice * exchangeRate) // Конвертация цены в рубли
 	}
 
-	// Функция для обновления переменных на основе выбранной криптовалюты
 	const handleCryptoSelect = crypto => {
 		setNetworkDifficulty(crypto.difficulty)
 		setBlockTime(crypto.blockTime)
 		setBlockReward(crypto.blockReward)
-		setCryptoPrice(crypto.price)
 		setCryptoPrice(crypto.price * exchangeRate) // Конвертация цены в рубли
 	}
 
@@ -133,13 +141,6 @@ const MiningForm = () => {
 					<label className="font-medium text-[14px] leading-[114%] opacity-60">
 						Добываемая монета/алгоритм
 					</label>
-					<select className="hidden" id="hidden-select">
-						<option value="btc" selected>
-							BTC (Bitcoin)
-						</option>
-						<option value="eth">ETH (Ethereum)</option>
-						<option value="ltc">LTC (Litecoin)</option>
-					</select>
 					{cryptoDataArray.length > 0 && (
 						<CustomCryptoSelect
 							options={cryptoDataArray}
@@ -155,14 +156,6 @@ const MiningForm = () => {
 							<label className="font-medium text-[14px] leading-[114%] opacity-60">
 								Устройство для размещения
 							</label>
-							<select className="hidden" id="hidden-select-miner">
-								<option value="1" selected>
-									Название модели майнера 1
-								</option>
-								<option value="2">Название модели майнера 2</option>
-								<option value="3">Название модели майнера 3</option>
-							</select>
-
 							<CustomSelect
 								options={minerModels}
 								placeholder={true}
@@ -242,13 +235,7 @@ const MiningForm = () => {
 					<BlueButton
 						text="Сбросить"
 						className="border-black border-solid border border-opacity-10 text-[#bdbfc1] bg-white hover:bg-[#00a3ff] hover:text-white hover:border-[#00a3ff]"
-						onClick={() => {
-							setHashRate(62)
-							setAsicCount(2)
-							setPowerConsumption(3200)
-							setElectricityPrice(4.7)
-							setAsicPrice(50000)
-						}}
+						onClick={resetForm}
 					/>
 
 					<BlueButton
@@ -258,7 +245,9 @@ const MiningForm = () => {
 					/>
 				</section>
 			</section>
-			<CalculationResults results={results} />
+			{results && Object.keys(results).length > 0 && (
+				<CalculationResults results={results} />
+			)}
 		</section>
 	)
 }
