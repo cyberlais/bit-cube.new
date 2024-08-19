@@ -100,7 +100,8 @@ const MiningForm = () => {
 						</InputField>
 
 						<InputField
-							unit="$ кВт/ч"
+							unit="₽ / кВт/ч"
+							// unit="$ / кВт/ч"
 							label="Цена электроэнергии"
 							placeholder="4.7"
 							type="number"
@@ -114,6 +115,7 @@ const MiningForm = () => {
 
 					<section className="flex flex-col gap-6">
 						<InputField
+							unit="шт"
 							label="Кол-во ASIC-майнеров"
 							placeholder="2"
 							type="number"
@@ -122,6 +124,7 @@ const MiningForm = () => {
 							required={true}
 						/>
 						<InputField
+							unit="Вт"
 							label="Потребление"
 							placeholder="3200"
 							type="number"
@@ -154,7 +157,7 @@ const MiningForm = () => {
 					<div className="font-bold text-[24px] leading-[133%]">
 						{isNaN(results.totalAsicPrice)
 							? "0"
-							: results.totalAsicPrice.toFixed(0)}{" "}
+							: parseInt(results.totalAsicPrice).toLocaleString("ru-RU")}{" "}
 						<span>₽</span>
 					</div>
 				</section>

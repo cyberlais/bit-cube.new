@@ -12,6 +12,18 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Убираем стрелки в Chrome, Safari, Edge, Opera */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+/* Убираем стрелки в Firefox */
+input[type="number"] {
+	-moz-appearance: textfield;
+}
+
 @media (max-width: 1280px) {
 	.bg-1::after {
 		display: none;
@@ -173,5 +185,3 @@
 .swiper-pagination-bullet-active {
 	background: rgba(255, 255, 255) !important;
 }
-
-
