@@ -161,12 +161,6 @@ const MiningForm = () => {
 						className="border-black border-solid border border-opacity-10 text-[#bdbfc1] bg-white hover:bg-[#00a3ff] hover:text-white hover:border-[#00a3ff]"
 						onClick={resetForm}
 					/>
-
-					<BlueButton
-						onClick={() => calculateResults()}
-						text="Показать результаты"
-						className="text-white bg-[#00a3ff] border-[#00a3ff] border-solid border hover:shadow-[0_4px_12px_0_rgba(0,_163,_255,_0.75)]"
-					/>
 				</section>
 			</section>
 
