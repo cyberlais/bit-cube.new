@@ -15,7 +15,7 @@ const MiningForm = () => {
 		hashRate: initialMinerModel.hashrate,
 		asicCount: 1,
 		powerConsumption: initialMinerModel.powerConsumption,
-		electricityPrice: 6.02,
+		electricityPrice: 5,
 		asicPrice: initialMinerModel.asicPrice,
 	})
 
