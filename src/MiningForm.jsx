@@ -1,5 +1,4 @@
 import React, { useCallback, useState } from "react"
-import BlueButton from "./BlueButton.jsx"
 import CalculationResults from "./CalculationResults.jsx"
 import CustomCryptoSelect from "./CustomCryptoSelect.jsx"
 import CustomSelect from "./CustomSelect.jsx"
@@ -24,7 +23,7 @@ const MiningForm = () => {
 	const cryptoDataArray = [
 		{
 			symbol: "Bitcoin",
-			icon: "string",
+			icon: "/img/calculator/btc.svg",
 		},
 	]
 
@@ -67,7 +66,11 @@ const MiningForm = () => {
 					<label className="font-medium text-[14px] leading-[114%] opacity-60">
 						Добываемая монета/алгоритм
 					</label>
-					<CustomCryptoSelect options={cryptoDataArray} placeholder={true} />
+					<CustomCryptoSelect
+						disable={true}
+						options={cryptoDataArray}
+						placeholder={true}
+					/>
 				</div>
 
 				<section className="grid 810:grid-cols-2 gap-6">
@@ -83,7 +86,7 @@ const MiningForm = () => {
 							/>
 						</div>
 						<InputField
-							label="Хешрейт (Th/s)"
+							label="Хешрейт"
 							placeholder="62"
 							type="number"
 							value={hashRate}
@@ -97,7 +100,8 @@ const MiningForm = () => {
 						</InputField>
 
 						<InputField
-							label="Цена электроэнергии (₽/кВт·ч)"
+							unit="$ кВт/ч"
+							label="Цена электроэнергии"
 							placeholder="4.7"
 							type="number"
 							value={electricityPrice}
@@ -110,7 +114,7 @@ const MiningForm = () => {
 
 					<section className="flex flex-col gap-6">
 						<InputField
-							label="Кол-во ASIC-майнеров (шт.)"
+							label="Кол-во ASIC-майнеров"
 							placeholder="2"
 							type="number"
 							value={asicCount}
@@ -118,7 +122,7 @@ const MiningForm = () => {
 							required={true}
 						/>
 						<InputField
-							label="Потребление (Вт)"
+							label="Потребление"
 							placeholder="3200"
 							type="number"
 							value={powerConsumption}
@@ -128,7 +132,7 @@ const MiningForm = () => {
 							required={true}
 						/>
 						<InputField
-							label="Цена ASIC-майнера (₽)"
+							label="Цена ASIC-майнера"
 							placeholder="50000"
 							type="number"
 							value={asicPrice.toFixed(0)}
@@ -155,13 +159,18 @@ const MiningForm = () => {
 					</div>
 				</section>
 
-				<section className="flex justify-center gap-3">
+				{/* <section className="flex justify-center gap-3">
 					<BlueButton
 						text="Сбросить"
 						className="border-black border-solid border border-opacity-10 text-[#bdbfc1] bg-white hover:bg-[#00a3ff] hover:text-white hover:border-[#00a3ff]"
 						onClick={resetForm}
 					/>
-				</section>
+					<BlueButton
+            onClick={() => calculateResults()}
+            text="Показать результаты"
+            className="text-white bg-[#00a3ff] border-[#00a3ff] border-solid border hover:shadow-[0_4px_12px_0_rgba(0,_163,_255,_0.75)]"
+          />
+				</section> */}
 			</section>
 
 			<MiningCalculator
