@@ -40,6 +40,7 @@ const CalculationResults = ({ results }) => {
 			play
 			perspective={1000}
 			numbers={convertValue(value)}
+			duration={.9}
 		/>
 	)
 
