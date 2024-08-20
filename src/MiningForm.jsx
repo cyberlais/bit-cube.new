@@ -91,22 +91,26 @@ const MiningForm = () => {
 	const handleCurrencySelect = useCallback(
 		newCurrency => {
 			setFormState(prevState => {
-				const { asicPrice, currency } = prevState
+				const { asicPrice, electricityPrice, currency } = prevState
 
 				let convertedAsicPrice = asicPrice
+				let convertedElectricityPrice = electricityPrice
 
-				// Если текущая валюта USD и меняем на RUB
-				if (currency === "$" && newCurrency === "₽") {
-					convertedAsicPrice = asicPrice * usdToRub
-				}
 				// Если текущая валюта RUB и меняем на USD
-				else if (currency === "₽" && newCurrency === "$") {
+				if (currency === "₽" && newCurrency === "$") {
 					convertedAsicPrice = asicPrice / usdToRub
+					convertedElectricityPrice = electricityPrice / usdToRub
+				}
+				// Если текущая валюта USD и меняем на RUB
+				else if (currency === "$" && newCurrency === "₽") {
+					convertedAsicPrice = asicPrice * usdToRub
+					convertedElectricityPrice = electricityPrice * usdToRub
 				}
 
 				return {
 					...prevState,
 					asicPrice: convertedAsicPrice,
+					electricityPrice: convertedElectricityPrice,
 					currency: newCurrency, // обновляем валюту
 				}
 			})
@@ -205,8 +209,7 @@ const MiningForm = () => {
 
 						<InputField
 							useMask={true}
-							unit="₽ / кВт/ч"
-							// unit="$ / кВт/ч"
+							unit={formState.currency === "$" ? "$ / кВт/ч" : "₽ / кВт/ч"}
 							label="Цена электроэнергии"
 							placeholder="5.00"
 							type="number"

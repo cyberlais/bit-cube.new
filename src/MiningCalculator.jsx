@@ -66,6 +66,11 @@ const MiningCalculator = ({
 			asicPrice = asicPrice / usdToRub
 		}
 
+		// Конвертация цены электроэнергии в рубли для расчетов
+		if (currency === "$") {
+			electricityPrice = electricityPrice * usdToRub
+		}
+
 		const revenue_per_ths_per_day_usd = btcPerThs * btcToUsd
 		const revenue_per_day_usd =
 			hashRate * asicCount * revenue_per_ths_per_day_usd
