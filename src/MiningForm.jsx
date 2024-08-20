@@ -14,7 +14,7 @@ const MiningForm = () => {
 		hashRate: initialMinerModel.hashrate,
 		asicCount: 1,
 		powerConsumption: initialMinerModel.powerConsumption,
-		electricityPrice: 5,
+		electricityPrice: 5.00,
 		asicPrice: initialMinerModel.asicPrice,
 	})
 
@@ -38,7 +38,7 @@ const MiningForm = () => {
 			hashRate: initialMinerModel.hashrate,
 			asicCount: 1,
 			powerConsumption: initialMinerModel.powerConsumption,
-			electricityPrice: 6.02,
+			electricityPrice: 5.00,
 			asicPrice: initialMinerModel.asicPrice,
 		})
 		setResults({})
@@ -100,10 +100,11 @@ const MiningForm = () => {
 						</InputField>
 
 						<InputField
+							useMask={true}
 							unit="₽ / кВт/ч"
 							// unit="$ / кВт/ч"
 							label="Цена электроэнергии"
-							placeholder="4.7"
+							placeholder="5.00"
 							type="number"
 							value={electricityPrice}
 							onChange={e =>

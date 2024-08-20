@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react"
+import FlipNumbers from "react-flip-numbers"
 import ToggleSwitch from "./ToggleSwitch.jsx"
 import { getExchangeRate } from "./currencies.ts"
 
@@ -30,6 +31,18 @@ const CalculationResults = ({ results }) => {
 		return formatNumber(converted)
 	}
 
+	const renderFlipNumber = value => (
+		<FlipNumbers
+			height={16}
+			width={10}
+			color="white"
+			background="black"
+			play
+			perspective={1000}
+			numbers={convertValue(value)}
+		/>
+	)
+
 	return (
 		<section className="flex flex-col gap-6 810:gap-8 px-4 py-6 1024:px-12 1024:py-10 bg-[rgba(152,_169,_193,_0.1)] rounded-3xl">
 			<div className="flex flex-col gap-6 810:flex-row justify-between items-center">
@@ -60,11 +73,11 @@ const CalculationResults = ({ results }) => {
 						<p className="text-[14px] leading-[114%] opacity-80 font-medium">
 							В день
 						</p>
-						<p className="text-[14px] 810:text-[15px]">
+						<p className="flex items-center gap-[2px] text-[14px] 810:text-[15px]">
 							<span>
 								{isNaN(results.electricity_cost_per_day_rub)
 									? "0"
-									: convertValue(results.electricity_cost_per_day_rub)}
+									: renderFlipNumber(results.electricity_cost_per_day_rub)}
 							</span>{" "}
 							<span>{isUSD ? "$" : "₽"}</span>
 						</p>
@@ -73,24 +86,24 @@ const CalculationResults = ({ results }) => {
 						<p className="text-[14px] leading-[114%] opacity-80 font-medium">
 							В месяц
 						</p>
-						<p className="text-[14px] 810:text-[15px]">
+						<p className="flex items-center gap-[2px] text-[14px] 810:text-[15px]">
 							<span>
 								{isNaN(results.monthlyElectricityCost)
 									? "0"
-									: convertValue(results.monthlyElectricityCost)}
+									: renderFlipNumber(results.monthlyElectricityCost)}
 							</span>{" "}
 							<span>{isUSD ? "$" : "₽"}</span>
 						</p>
 					</div>
-					<div className="flex items-center justify_between 810:items-center 810:flex-col gap-4">
+					<div className="flex items-center justify-between 810:items-center 810:flex-col gap-4">
 						<p className="text-[14px] leading-[114%] opacity-80 font-medium">
 							В год
 						</p>
-						<p className="text-[14px] 810:text-[15px]">
+						<p className="flex items-center gap-[2px] text-[14px] 810:text-[15px]">
 							<span>
 								{isNaN(results.yearlyElectricityCost)
 									? "0"
-									: convertValue(results.yearlyElectricityCost)}
+									: renderFlipNumber(results.yearlyElectricityCost)}
 							</span>{" "}
 							<span>{isUSD ? "$" : "₽"}</span>
 						</p>
@@ -104,37 +117,37 @@ const CalculationResults = ({ results }) => {
 						<p className="810:hidden text-[14px] leading-[114%] opacity-80 font-medium">
 							В день
 						</p>
-						<p className="text-[14px] 810:text-[15px]">
+						<p className="flex items-center gap-[2px] text-[14px] 810:text-[15px]">
 							<span>
 								{isNaN(results.revenue_per_day_rub)
 									? "0"
-									: convertValue(results.revenue_per_day_rub)}
+									: renderFlipNumber(results.revenue_per_day_rub)}
 							</span>{" "}
 							<span>{isUSD ? "$" : "₽"}</span>
 						</p>
 					</div>
 					<div className="flex items-center justify-between 810:items-center 810:flex-col gap-4">
-						<p className="810-hidden text-[14px] leading-[114%] opacity-80 font-medium">
+						<p className="810:hidden text-[14px] leading-[114%] opacity-80 font-medium">
 							В месяц
 						</p>
-						<p className="text-[14px] 810:text-[15px]">
+						<p className="flex items-center gap-[2px] text-[14px] 810:text-[15px]">
 							<span>
 								{isNaN(results.revenue_per_month_rub)
 									? "0"
-									: convertValue(results.revenue_per_month_rub)}
+									: renderFlipNumber(results.revenue_per_month_rub)}
 							</span>{" "}
 							<span>{isUSD ? "$" : "₽"}</span>
 						</p>
 					</div>
-					<div className="flex items-center justify_between 810:items-center 810:flex-col gap-4">
-						<p className="810-hidden text-[14px] leading-[114%] opacity-80 font-medium">
+					<div className="flex items-center justify-between 810:items-center 810:flex-col gap-4">
+						<p className="810:hidden text-[14px] leading-[114%] opacity-80 font-medium">
 							В год
 						</p>
-						<p className="text-[14px] 810:text-[15px]">
+						<p className="flex items-center gap-[2px] text-[14px] 810:text-[15px]">
 							<span>
 								{isNaN(results.revenue_per_year_rub)
 									? "0"
-									: convertValue(results.revenue_per_year_rub)}
+									: renderFlipNumber(results.revenue_per_year_rub)}
 							</span>{" "}
 							<span>{isUSD ? "$" : "₽"}</span>
 						</p>
@@ -144,41 +157,41 @@ const CalculationResults = ({ results }) => {
 					<p className="mb-2 810:mb-0 text-[14px] leading-[143%] font-medium 810:text-[15px] 810:leading-[160%]">
 						Чистая прибыль
 					</p>
-					<div className="flex items-center justify_between 810:items-center 810:flex-col gap-4">
-						<p className="810-hidden text-[14px] leading-[114%] opacity-80 font-medium">
+					<div className="flex items-center justify-between 810:items-center 810:flex-col gap-4">
+						<p className="810:hidden text-[14px] leading-[114%] opacity-80 font-medium">
 							В день
 						</p>
-						<p className="text-[14px] 810:text-[15px]">
+						<p className="flex items-center gap-[2px] text-[14px] 810:text-[15px]">
 							<span>
 								{isNaN(results.net_profit_per_day_rub)
 									? "0"
-									: convertValue(results.net_profit_per_day_rub)}
+									: renderFlipNumber(results.net_profit_per_day_rub)}
 							</span>{" "}
 							<span>{isUSD ? "$" : "₽"}</span>
 						</p>
 					</div>
-					<div className="flex items-center justify_between 810:items-center 810:flex-col gap-4">
-						<p className="810-hidden text-[14px] leading-[114%] opacity-80 font-medium">
+					<div className="flex items-center justify-between 810:items-center 810:flex-col gap-4">
+						<p className="810:hidden text-[14px] leading-[114%] opacity-80 font-medium">
 							В месяц
 						</p>
-						<p className="text-[14px] 810:text-[15px]">
+						<p className="flex items-center gap-[2px] text-[14px] 810:text-[15px]">
 							<span>
 								{isNaN(results.net_profit_per_month_rub)
 									? "0"
-									: convertValue(results.net_profit_per_month_rub)}
+									: renderFlipNumber(results.net_profit_per_month_rub)}
 							</span>{" "}
 							<span>{isUSD ? "$" : "₽"}</span>
 						</p>
 					</div>
-					<div className="flex items-center justify_between 810:items-center 810:flex-col gap-4">
-						<p className="810-hidden text-[14px] leading-[114%] opacity-80 font-medium">
+					<div className="flex items-center justify-between 810:items-center 810:flex-col gap-4">
+						<p className="810:hidden text-[14px] leading-[114%] opacity-80 font-medium">
 							В год
 						</p>
-						<p className="text-[14px] 810:text-[15px]">
+						<p className="flex items-center gap-[2px] text-[14px] 810:text-[15px]">
 							<span>
 								{isNaN(results.net_profit_per_year_rub)
 									? "0"
-									: convertValue(results.net_profit_per_year_rub)}
+									: renderFlipNumber(results.net_profit_per_year_rub)}
 							</span>{" "}
 							<span>{isUSD ? "$" : "₽"}</span>
 						</p>
