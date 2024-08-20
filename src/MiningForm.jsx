@@ -14,8 +14,9 @@ const MiningForm = () => {
 		hashRate: initialMinerModel.hashrate,
 		asicCount: 1,
 		powerConsumption: initialMinerModel.powerConsumption,
-		electricityPrice: 5.00,
+		electricityPrice: 5.0,
 		asicPrice: initialMinerModel.asicPrice,
+		hashRateUnit: "Th/s",
 	})
 
 	const [results, setResults] = useState({})
@@ -38,7 +39,7 @@ const MiningForm = () => {
 			hashRate: initialMinerModel.hashrate,
 			asicCount: 1,
 			powerConsumption: initialMinerModel.powerConsumption,
-			electricityPrice: 5.00,
+			electricityPrice: 5.0,
 			asicPrice: initialMinerModel.asicPrice,
 		})
 		setResults({})
@@ -52,6 +53,34 @@ const MiningForm = () => {
 			asicPrice: model.asicPrice,
 		}))
 	}
+
+	const handleSimpleSelect = useCallback(newUnit => {
+		setFormState(prevState => {
+			const { hashRate, hashRateUnit } = prevState
+
+			let convertedHashRate = hashRate
+
+			// Конвертируем в базовое значение (Th/s)
+			if (hashRateUnit === "Gh/s") {
+				convertedHashRate = hashRate / 1000
+			} else if (hashRateUnit === "Mh/s") {
+				convertedHashRate = hashRate / 1000000
+			}
+
+			// Конвертируем из базового значения в новую единицу
+			if (newUnit === "Gh/s") {
+				convertedHashRate = convertedHashRate * 1000
+			} else if (newUnit === "Mh/s") {
+				convertedHashRate = convertedHashRate * 1000000
+			}
+
+			return {
+				...prevState,
+				hashRate: convertedHashRate,
+				hashRateUnit: newUnit, // обновляем единицу измерения
+			}
+		})
+	}, [])
 
 	const { hashRate, asicCount, powerConsumption, electricityPrice, asicPrice } =
 		formState
@@ -94,6 +123,7 @@ const MiningForm = () => {
 							required={true}
 						>
 							<CustomSimpleSelect
+								onSelect={handleSimpleSelect}
 								options={["Th/s", "Gh/s", "Mh/s"]}
 								placeholder={false}
 							/>
@@ -144,6 +174,7 @@ const MiningForm = () => {
 							required={true}
 						>
 							<CustomSimpleSelect
+								onSelect={handleSimpleSelect}
 								options={["₽", "$"]}
 								placeholder="Выберите валюту"
 							/>

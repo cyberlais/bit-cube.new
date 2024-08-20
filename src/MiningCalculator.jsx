@@ -46,13 +46,21 @@ const MiningCalculator = ({ formState, poolFee, onCalculate }) => {
 			return
 		}
 
-		const {
+		let {
 			hashRate,
 			asicCount,
 			powerConsumption,
 			electricityPrice,
 			asicPrice,
+			hashRateUnit,
 		} = formState
+
+		// Конвертация hashRate в Th/s, если необходимо
+		if (hashRateUnit === "Gh/s") {
+			hashRate = hashRate / 1000
+		} else if (hashRateUnit === "Mh/s") {
+			hashRate = hashRate / 1000000
+		}
 
 		const revenue_per_ths_per_day_usd = btcPerThs * btcToUsd
 		const revenue_per_day_usd =

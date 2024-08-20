@@ -1,12 +1,14 @@
 import React, { useState } from "react"
 
-const CustomSimpleSelect = ({ options }) => {
+const CustomSimpleSelect = ({ options, onSelect }) => {
 	const [selectedOption, setSelectedOption] = useState(options[0])
 	const [isOpen, setIsOpen] = useState(false)
 
 	const handleOptionClick = option => {
 		setSelectedOption(option)
 		setIsOpen(false)
+		onSelect && onSelect(option)
+		
 	}
 
 	return (
