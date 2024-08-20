@@ -1,15 +1,13 @@
 import { useEffect, useState } from "react"
-import CurrencyRatesFetcher from "./CurrencyRatesFetcher"
 
-const MiningCalculator = ({ formState, poolFee, onCalculate }) => {
-	const [btcToUsd, setBtcToUsd] = useState(null)
-	const [usdToRub, setUsdToRub] = useState(null)
+const MiningCalculator = ({
+	formState,
+	poolFee,
+	onCalculate,
+	btcToUsd,
+	usdToRub,
+}) => {
 	const [btcPerThs, setBtcPerThs] = useState(null)
-
-	const handleRatesFetched = ({ btcToUsd, usdToRub }) => {
-		setBtcToUsd(btcToUsd)
-		setUsdToRub(usdToRub)
-	}
 
 	const getMiningData = async () => {
 		try {
@@ -37,7 +35,7 @@ const MiningCalculator = ({ formState, poolFee, onCalculate }) => {
 	}
 
 	const calculateResults = () => {
-		if (!btcToUsd || !usdToRub || !btcPerThs) {
+		if (!btcPerThs) {
 			console.log("Данные для расчета не готовы", {
 				btcToUsd,
 				usdToRub,
@@ -53,6 +51,7 @@ const MiningCalculator = ({ formState, poolFee, onCalculate }) => {
 			electricityPrice,
 			asicPrice,
 			hashRateUnit,
+			currency,
 		} = formState
 
 		// Конвертация hashRate в Th/s, если необходимо
@@ -60,6 +59,11 @@ const MiningCalculator = ({ formState, poolFee, onCalculate }) => {
 			hashRate = hashRate / 1000
 		} else if (hashRateUnit === "Mh/s") {
 			hashRate = hashRate / 1000000
+		}
+
+		// Конвертация цены ASIC-майнера в доллары, если валюта рубли
+		if (currency === "₽") {
+			asicPrice = asicPrice / usdToRub
 		}
 
 		const revenue_per_ths_per_day_usd = btcPerThs * btcToUsd
@@ -72,45 +76,49 @@ const MiningCalculator = ({ formState, poolFee, onCalculate }) => {
 
 		const net_profit_per_day_rub =
 			revenue_per_day_rub - electricity_cost_per_day_rub
+		const net_profit_per_day_usd =
+			revenue_per_day_usd - electricity_cost_per_day_rub / usdToRub
 
 		const net_profit_per_month_rub = net_profit_per_day_rub * 30
-		const net_profit_per_year_rub = net_profit_per_day_rub * 365
+		const net_profit_per_month_usd = net_profit_per_day_usd * 30
 
-		const revenue_per_month_rub = revenue_per_day_rub * 30
-		const revenue_per_year_rub = revenue_per_day_rub * 365
+		let totalAsicPrice = asicPrice * asicCount
 
-		const monthlyElectricityCost = electricity_cost_per_day_rub * 30
-		const yearlyElectricityCost = electricity_cost_per_day_rub * 365
-
-		const totalAsicPrice = asicPrice * asicCount * usdToRub
-
-		const paybackPeriodMonths = totalAsicPrice / net_profit_per_month_rub
+		// Срок окупаемости рассчитываем в зависимости от валюты
+		let paybackPeriodMonths
+		if (currency === "₽") {
+			paybackPeriodMonths =
+				(totalAsicPrice * usdToRub) / net_profit_per_month_rub
+			totalAsicPrice = totalAsicPrice * usdToRub // Конвертируем обратно в рубли
+		} else {
+			paybackPeriodMonths = totalAsicPrice / net_profit_per_month_usd
+		}
 
 		console.log("Результаты расчета", {
 			revenue_per_day_rub,
-			revenue_per_month_rub,
-			revenue_per_year_rub,
+			revenue_per_month_rub: revenue_per_day_rub * 30,
+			revenue_per_year_rub: revenue_per_day_rub * 365,
 			net_profit_per_day_rub,
 			net_profit_per_month_rub,
-			net_profit_per_year_rub,
+			net_profit_per_year_rub: net_profit_per_day_rub * 365,
 			electricity_cost_per_day_rub,
-			monthlyElectricityCost,
-			yearlyElectricityCost,
+			monthlyElectricityCost: electricity_cost_per_day_rub * 30,
+			yearlyElectricityCost: electricity_cost_per_day_rub * 365,
 			totalAsicPrice,
 			paybackPeriodMonths,
 		})
 
 		onCalculate({
 			revenue_per_day_rub,
-			revenue_per_month_rub,
-			revenue_per_year_rub,
+			revenue_per_month_rub: revenue_per_day_rub * 30,
+			revenue_per_year_rub: revenue_per_day_rub * 365,
 			net_profit_per_day_rub,
 			net_profit_per_month_rub,
-			net_profit_per_year_rub,
+			net_profit_per_year_rub: net_profit_per_day_rub * 365,
 			electricity_cost_per_day_rub,
-			monthlyElectricityCost,
-			yearlyElectricityCost,
-			totalAsicPrice,
+			monthlyElectricityCost: electricity_cost_per_day_rub * 30,
+			yearlyElectricityCost: electricity_cost_per_day_rub * 365,
+			totalAsicPrice, // Возвращаем в нужной валюте
 			paybackPeriodMonths,
 		})
 	}
@@ -120,19 +128,12 @@ const MiningCalculator = ({ formState, poolFee, onCalculate }) => {
 	}, [])
 
 	useEffect(() => {
-		console.log("Form State Updated:", formState)
-		console.log("BTC to USD:", btcToUsd)
-		console.log("USD to RUB:", usdToRub)
-		console.log("BTC per TH/s:", btcPerThs)
-
-		calculateResults()
+		if (btcToUsd && usdToRub && btcPerThs) {
+			calculateResults()
+		}
 	}, [formState, btcToUsd, usdToRub, btcPerThs])
 
-	return (
-		<>
-			<CurrencyRatesFetcher onRatesFetched={handleRatesFetched} />
-		</>
-	)
+	return null
 }
 
 export default MiningCalculator

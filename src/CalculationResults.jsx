@@ -28,7 +28,7 @@ const CalculationResults = ({ results }) => {
 		const converted = isUSD
 			? (value / exchangeRate).toFixed(0)
 			: value.toFixed(0)
-		return formatNumber(converted)
+		return parseInt(converted).toLocaleString("ru-RU")
 	}
 
 	const renderFlipNumber = value => (
@@ -40,7 +40,7 @@ const CalculationResults = ({ results }) => {
 			play
 			perspective={1000}
 			numbers={convertValue(value)}
-			duration={.9}
+			duration={0.9}
 		/>
 	)
 

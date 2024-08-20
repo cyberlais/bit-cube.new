@@ -1,4 +1,5 @@
-import React, { useCallback, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
+import FlipNumbers from "react-flip-numbers"
 import CalculationResults from "./CalculationResults.jsx"
 import CustomCryptoSelect from "./CustomCryptoSelect.jsx"
 import CustomSelect from "./CustomSelect.jsx"
@@ -17,9 +18,12 @@ const MiningForm = () => {
 		electricityPrice: 5.0,
 		asicPrice: initialMinerModel.asicPrice,
 		hashRateUnit: "Th/s",
+		currency: "₽",
 	})
 
 	const [results, setResults] = useState({})
+	const [btcToUsd, setBtcToUsd] = useState(null)
+	const [usdToRub, setUsdToRub] = useState(null)
 
 	const cryptoDataArray = [
 		{
@@ -41,6 +45,8 @@ const MiningForm = () => {
 			powerConsumption: initialMinerModel.powerConsumption,
 			electricityPrice: 5.0,
 			asicPrice: initialMinerModel.asicPrice,
+			hashRateUnit: "Th/s",
+			currency: "₽", // добавляем поле для отслеживания текущей валюты
 		})
 		setResults({})
 	}
@@ -50,7 +56,7 @@ const MiningForm = () => {
 			...prevState,
 			hashRate: model.hashrate,
 			powerConsumption: model.powerConsumption,
-			asicPrice: model.asicPrice,
+			asicPrice: model.asicPrice * usdToRub, // конвертация в рубли при выборе устройства
 		}))
 	}
 
@@ -80,6 +86,74 @@ const MiningForm = () => {
 				hashRateUnit: newUnit, // обновляем единицу измерения
 			}
 		})
+	}, [])
+
+	const handleCurrencySelect = useCallback(
+		newCurrency => {
+			setFormState(prevState => {
+				const { asicPrice, currency } = prevState
+
+				let convertedAsicPrice = asicPrice
+
+				// Если текущая валюта USD и меняем на RUB
+				if (currency === "$" && newCurrency === "₽") {
+					convertedAsicPrice = asicPrice * usdToRub
+				}
+				// Если текущая валюта RUB и меняем на USD
+				else if (currency === "₽" && newCurrency === "$") {
+					convertedAsicPrice = asicPrice / usdToRub
+				}
+
+				return {
+					...prevState,
+					asicPrice: convertedAsicPrice,
+					currency: newCurrency, // обновляем валюту
+				}
+			})
+		},
+		[usdToRub]
+	)
+
+	const renderFlipNumber = value => (
+		<FlipNumbers
+			height={24}
+			width={15}
+			play
+			perspective={1000}
+			numbers={value}
+			duration={0.9}
+		/>
+	)
+
+	useEffect(() => {
+		const getExchangeRates = async () => {
+			try {
+				const btcToUsdResponse = await fetch("https://blockchain.info/ticker")
+				const btcToUsdData = await btcToUsdResponse.json()
+				const btc_to_usd = btcToUsdData.USD?.last
+
+				if (!btc_to_usd) {
+					throw new Error("Не удалось получить курс BTC/USD")
+				}
+
+				const usdToRubResponse = await fetch(
+					"https://api.exchangerate-api.com/v4/latest/USD"
+				)
+				const usdToRubData = await usdToRubResponse.json()
+				const usd_to_rub = usdToRubData.rates?.RUB
+
+				if (!usd_to_rub) {
+					throw new Error("Не удалось получить курс USD/RUB")
+				}
+
+				setBtcToUsd(btc_to_usd)
+				setUsdToRub(usd_to_rub)
+			} catch (error) {
+				console.error("Ошибка при получении курсов валют: ", error)
+			}
+		}
+
+		getExchangeRates()
 	}, [])
 
 	const { hashRate, asicCount, powerConsumption, electricityPrice, asicPrice } =
@@ -174,7 +248,7 @@ const MiningForm = () => {
 							required={true}
 						>
 							<CustomSimpleSelect
-								onSelect={handleSimpleSelect}
+								onSelect={handleCurrencySelect} // используем новую функцию
 								options={["₽", "$"]}
 								placeholder="Выберите валюту"
 							/>
@@ -186,33 +260,26 @@ const MiningForm = () => {
 					<p className="font-medium text-[15px] leading-[160%] opacity-60">
 						Стоимость оборудования
 					</p>
-					<div className="font-bold text-[24px] leading-[133%]">
+					<div className="flex items-center gap-2 font-bold text-[24px] leading-[133%]">
 						{isNaN(results.totalAsicPrice)
 							? "0"
-							: parseInt(results.totalAsicPrice).toLocaleString("ru-RU")}{" "}
-						<span>₽</span>
+							: renderFlipNumber(
+									parseInt(results.totalAsicPrice).toLocaleString("ru-RU")
+							  )}{" "}
+						<span>{formState.currency}</span>
 					</div>
 				</section>
-
-				{/* <section className="flex justify-center gap-3">
-					<BlueButton
-						text="Сбросить"
-						className="border-black border-solid border border-opacity-10 text-[#bdbfc1] bg-white hover:bg-[#00a3ff] hover:text-white hover:border-[#00a3ff]"
-						onClick={resetForm}
-					/>
-					<BlueButton
-            onClick={() => calculateResults()}
-            text="Показать результаты"
-            className="text-white bg-[#00a3ff] border-[#00a3ff] border-solid border hover:shadow-[0_4px_12px_0_rgba(0,_163,_255,_0.75)]"
-          />
-				</section> */}
 			</section>
 
-			<MiningCalculator
-				formState={formState}
-				poolFee={poolFee}
-				onCalculate={setResults}
-			/>
+			{btcToUsd && usdToRub && (
+				<MiningCalculator
+					formState={formState}
+					poolFee={poolFee}
+					btcToUsd={btcToUsd}
+					usdToRub={usdToRub}
+					onCalculate={setResults}
+				/>
+			)}
 
 			{results && Object.keys(results).length > 0 && (
 				<CalculationResults results={results} />
