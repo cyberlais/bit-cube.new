@@ -76,7 +76,7 @@ const MiningCalculator = ({
 			hashRate * asicCount * revenue_per_ths_per_day_usd
 		const revenue_per_day_rub = revenue_per_day_usd * usdToRub
 
-		const power_kw = powerConsumption / 1000
+		const power_kw = (powerConsumption * asicCount) / 1000
 		const electricity_cost_per_day_rub = power_kw * electricityPrice * 24
 
 		const net_profit_per_day_rub =
