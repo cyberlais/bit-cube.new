@@ -54,7 +54,7 @@ const MiningCalculator = ({
 			currency,
 		} = formState
 
-		// Конвертация hashRate в Th/s, если необходимо
+		// Конвертация hashRate в Th/s перед расчетами, если необходимо
 		if (hashRateUnit === "Gh/s") {
 			hashRate = hashRate / 1000
 		} else if (hashRateUnit === "Mh/s") {
@@ -76,8 +76,8 @@ const MiningCalculator = ({
 			hashRate * asicCount * revenue_per_ths_per_day_usd
 		const revenue_per_day_rub = revenue_per_day_usd * usdToRub
 
-		const power_kw = (powerConsumption * asicCount) / 1000
-		const electricity_cost_per_day_rub = power_kw * electricityPrice * 24
+		const power_kw = (powerConsumption * asicCount) / 1000 // Учитываем количество ASIC-майнеров
+		const electricity_cost_per_day_rub = power_kw * electricityPrice * 24 // Умножаем на количество часов в сутках
 
 		const net_profit_per_day_rub =
 			revenue_per_day_rub - electricity_cost_per_day_rub

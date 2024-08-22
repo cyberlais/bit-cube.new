@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useState } from "react"
-import FlipNumbers from "react-flip-numbers"
 import CalculationResults from "./CalculationResults.jsx"
 import CustomCryptoSelect from "./CustomCryptoSelect.jsx"
 import CustomSelect from "./CustomSelect.jsx"
@@ -17,8 +16,8 @@ const MiningForm = () => {
 		powerConsumption: initialMinerModel.powerConsumption,
 		electricityPrice: 5.0,
 		asicPrice: initialMinerModel.asicPrice,
-		hashRateUnit: "Th/s",
-		currency: "₽",
+		hashRateUnit: "Th/s", // по умолчанию Th/s
+		currency: "₽", // по умолчанию рубли
 	})
 
 	const [results, setResults] = useState({})
@@ -44,9 +43,9 @@ const MiningForm = () => {
 			asicCount: 1,
 			powerConsumption: initialMinerModel.powerConsumption,
 			electricityPrice: 5.0,
-			asicPrice: initialMinerModel.asicPrice,
+			asicPrice: initialMinerModel.asicPrice * usdToRub, // конвертация в рубли при сбросе
 			hashRateUnit: "Th/s",
-			currency: "₽", // добавляем поле для отслеживания текущей валюты
+			currency: "₽", // по умолчанию рубли
 		})
 		setResults({})
 	}
@@ -61,31 +60,10 @@ const MiningForm = () => {
 	}
 
 	const handleSimpleSelect = useCallback(newUnit => {
-		setFormState(prevState => {
-			const { hashRate, hashRateUnit } = prevState
-
-			let convertedHashRate = hashRate
-
-			// Конвертируем в базовое значение (Th/s)
-			if (hashRateUnit === "Gh/s") {
-				convertedHashRate = hashRate / 1000
-			} else if (hashRateUnit === "Mh/s") {
-				convertedHashRate = hashRate / 1000000
-			}
-
-			// Конвертируем из базового значения в новую единицу
-			if (newUnit === "Gh/s") {
-				convertedHashRate = convertedHashRate * 1000
-			} else if (newUnit === "Mh/s") {
-				convertedHashRate = convertedHashRate * 1000000
-			}
-
-			return {
-				...prevState,
-				hashRate: convertedHashRate,
-				hashRateUnit: newUnit, // обновляем единицу измерения
-			}
-		})
+		setFormState(prevState => ({
+			...prevState,
+			hashRateUnit: newUnit, // обновляем только юнит
+		}))
 	}, [])
 
 	const handleCurrencySelect = useCallback(
@@ -118,17 +96,6 @@ const MiningForm = () => {
 		[usdToRub]
 	)
 
-	const renderFlipNumber = value => (
-		<FlipNumbers
-			height={24}
-			width={15}
-			play
-			perspective={1000}
-			numbers={value}
-			duration={0.9}
-		/>
-	)
-
 	useEffect(() => {
 		const getExchangeRates = async () => {
 			try {
@@ -152,6 +119,12 @@ const MiningForm = () => {
 
 				setBtcToUsd(btc_to_usd)
 				setUsdToRub(usd_to_rub)
+
+				// Конвертация asicPrice в рубли после загрузки курса
+				setFormState(prevState => ({
+					...prevState,
+					asicPrice: prevState.asicPrice * usd_to_rub, // Конвертация в рубли
+				}))
 			} catch (error) {
 				console.error("Ошибка при получении курсов валют: ", error)
 			}
@@ -160,8 +133,14 @@ const MiningForm = () => {
 		getExchangeRates()
 	}, [])
 
-	const { hashRate, asicCount, powerConsumption, electricityPrice, asicPrice } =
-		formState
+	const {
+		hashRate,
+		asicCount,
+		powerConsumption,
+		electricityPrice,
+		asicPrice,
+		hashRateUnit,
+	} = formState
 
 	return (
 		<section className="flex flex-col gap-6">
@@ -263,12 +242,10 @@ const MiningForm = () => {
 					<p className="font-medium text-[15px] leading-[160%] opacity-60">
 						Стоимость оборудования
 					</p>
-					<div className="flex items-center gap-2 font-bold text-[24px] leading-[133%]">
+					<div className="font-bold text-[24px] leading-[133%]">
 						{isNaN(results.totalAsicPrice)
 							? "0"
-							: renderFlipNumber(
-									parseInt(results.totalAsicPrice).toLocaleString("ru-RU")
-							  )}{" "}
+							: parseInt(results.totalAsicPrice).toLocaleString("ru-RU")}{" "}
 						<span>{formState.currency}</span>
 					</div>
 				</section>
