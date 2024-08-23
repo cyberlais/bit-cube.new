@@ -93,7 +93,7 @@ export const minerModels: MinerModel[] = [
     hashrate: 117,
     powerConsumption: 3218,
     asicPrice: 1500,
-    image: "/img/calculator/models/S19i Pro+.jpg"
+    image: "/img/calculator/models/S19i ProPlus.jpg"
   },
   {
     label: "ANTMINER S19 SERIES",
@@ -109,7 +109,7 @@ export const minerModels: MinerModel[] = [
     hashrate: 119,
     powerConsumption: 5253,
     asicPrice: 1770,
-    image: "/img/calculator/models/S19 Pro+ Hydro.jpg"
+    image: "/img/calculator/models/S19 ProPlus Hydro.jpg"
   },
   {
     label: "ANTMINER S21 SERIES",
