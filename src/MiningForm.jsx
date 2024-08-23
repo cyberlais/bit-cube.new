@@ -245,7 +245,7 @@ const MiningForm = () => {
 					<div className="font-bold text-[24px] leading-[133%]">
 						{isNaN(results.totalAsicPrice)
 							? "0"
-							: parseInt(results.totalAsicPrice).toLocaleString("ru-RU")}{" "}
+							: parseInt(results.totalAsicPrice).toLocaleString("ru-RU")}
 						<span>{formState.currency}</span>
 					</div>
 				</section>

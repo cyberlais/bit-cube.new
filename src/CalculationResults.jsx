@@ -59,11 +59,12 @@ const CalculationResults = ({ results }) => {
 					</p>
 					<div className="text-[24px] font-bold leading-[133%] uppercase">
 						<span>
-							{isNaN(results.paybackPeriodMonths)
-								? "0"
+							{isNaN(results.paybackPeriodMonths) ||
+							results.paybackPeriodMonths < 0
+								? "-"
 								: results.paybackPeriodMonths?.toFixed(0)}
 						</span>
-						<span>{isNaN(results.paybackPeriodMonths) ? "" : " месяцев"}</span>
+						<span>{isNaN(results.paybackPeriodMonths) || results.paybackPeriodMonths < 0 ? "" : " месяцев"}</span>
 					</div>
 				</div>
 				<div className="flex flex-col 810:grid grid-cols-[300px_1fr_1fr_1fr] gap-2 810:gap-8 810:items-end justify-between bg-black text-white rounded-3xl pt-5 pb-6 px-6 810:py-6 810:px-10">
