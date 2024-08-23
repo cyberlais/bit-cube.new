@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react"
+import FlipNumbers from "react-flip-numbers"
 import CalculationResults from "./CalculationResults.jsx"
 import CustomCryptoSelect from "./CustomCryptoSelect.jsx"
 import CustomSelect from "./CustomSelect.jsx"
@@ -142,8 +143,23 @@ const MiningForm = () => {
 		hashRateUnit,
 	} = formState
 
+	let a = 1
+
+	const renderFlipNumber = value => (
+		<FlipNumbers
+			height={32}
+			width={24}
+			perspective={1000}
+			numbers={value}
+			duration={0.9}
+			play
+		/>
+	)
+
 	return (
 		<section className="flex flex-col gap-6">
+			{console.log(a)}
+			<div className="flex">Тут {renderFlipNumber(a)}</div>
 			<p className="font-semibold text-[20px] leading-[120%]">
 				Укажите основные данные
 			</p>
