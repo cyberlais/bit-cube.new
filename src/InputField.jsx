@@ -16,7 +16,8 @@ const InputField = ({
 	const [error, setError] = useState("")
 
 	useEffect(() => {
-		if (required && !value) {
+		if (required && (!value || value <= 0)) {
+			// Проверяем не только пустоту, но и корректность значения
 			setError("Заполните поле")
 		} else {
 			setError("")

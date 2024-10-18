@@ -56,7 +56,8 @@ const MiningForm = () => {
 			...prevState,
 			hashRate: model.hashrate,
 			powerConsumption: model.powerConsumption,
-			asicPrice: model.asicPrice * usdToRub, // конвертация в рубли при выборе устройства
+			// asicPrice: model.asicPrice * usdToRub,
+			// конвертация в рубли при выборе устройства
 		}))
 	}
 
@@ -159,7 +160,7 @@ const MiningForm = () => {
 	return (
 		<section className="flex flex-col gap-6">
 			{console.log(a)}
-			<div className="flex">Тут {renderFlipNumber(a)}</div>
+			{/* <div className="flex">Тут {renderFlipNumber(a)}</div> */}
 			<p className="font-semibold text-[20px] leading-[120%]">
 				Укажите основные данные
 			</p>
