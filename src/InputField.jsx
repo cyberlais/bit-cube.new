@@ -16,9 +16,17 @@ const InputField = ({
 	const [error, setError] = useState("")
 
 	useEffect(() => {
-		if (required && (!value || value <= 0)) {
-			// Проверяем не только пустоту, но и корректность значения
-			setError("Заполните поле")
+		const parsedValue = parseFloat(value) // Преобразуем значение в число
+
+		if (
+			required &&
+			(value === undefined ||
+				value === null ||
+				value === "" ||
+				isNaN(parsedValue) ||
+				parsedValue <= 0)
+		) {
+			setError("Заполните поле корректно")
 		} else {
 			setError("")
 		}
